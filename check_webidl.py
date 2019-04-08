@@ -16,7 +16,7 @@ elif browser == 'safari':
 	webidl_path = "/Users/vinyldarkscratch/Developer/browsers/WebKit/Source"
 
 data = ""
-with open("/Users/vinyldarkscratch/Desktop/%s_null.txt" %browser) as f:
+with open("%s_null.txt" %browser) as f:
 	entries_to_check = [l.replace("\n", "") for l in f.readlines() if l.startswith("api.")]
 
 def dir_walk(path):
