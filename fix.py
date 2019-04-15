@@ -8,12 +8,10 @@ if len(sys.argv) < 2:
 
 feature = sys.argv[1].split(".")
 bcd_path = "/Users/vinyldarkscratch/Developer/git/browser-compat-data"
-browser = ['firefox', 'firefox_android']
+browser = ['webview_android']
 
 if len(sys.argv) >= 3:
 	browser = sys.argv[2].split(",")
-if len(sys.argv) >= 4:
-	state = True if sys.argv[3].lower() == "true" else False if sys.argv[3].lower() == "false" else None if sys.argv[3].lower() == "null" else sys.argv[3]
 
 p = bcd_path
 i = 0
@@ -29,6 +27,12 @@ while True:
 
 with open(p, 'r') as f:
 	j = json.load(f)
+
+def int_or_float(string):
+	try:
+		return int(string)
+	except:
+		return float(string)
 
 ## Opera / Opera Android
 # def bump_version(value):
@@ -68,13 +72,7 @@ with open(p, 'r') as f:
 
 # 	return new_value
 
-def int_or_float(string):
-	try:
-		return int(string)
-	except:
-		return float(string)
-
-## Chrome Android / Webview
+## Chrome Android / Webview / Firefox Android
 def bump_version(value):
 	if isinstance(value, list):
 		new_value = []
@@ -83,10 +81,10 @@ def bump_version(value):
 	if isinstance(value, dict):
 		new_value = dict(value)
 		if isinstance(new_value['version_added'], str):
-			new_value['version_added'] = str(max(4, int_or_float(new_value['version_added'])))
+			new_value['version_added'] = str(max(30, int_or_float(new_value['version_added'])))
 		if 'version_removed' in value:
 			if isinstance(new_value['version_removed'], str):
-				new_value['version_removed'] = str(max(4, int_or_float(new_value['version_removed'])))
+				new_value['version_removed'] = str(max(30, int_or_float(new_value['version_removed'])))
 	return new_value
 
 def set_feature(feature_path, value, js):
@@ -96,7 +94,7 @@ def set_feature(feature_path, value, js):
 	else:
 		if isinstance(js[root], dict):
 			if js[root]['version_added'] == None:
-				js[root] = bump_version(js['firefox'])
+				js[root] = bump_version(js['chrome_android'])
 		else:
 			if value != None:
 				js[root] = value
