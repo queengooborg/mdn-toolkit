@@ -33,4 +33,8 @@ for f in feature:
 		sys.exit(1)
 	mdn_url = js.get('__compat', {}).get("mdn_url", mdn_url)
 
+if not mdn_url:
+	print("Feature does not have an MDN URL defined!")
+	sys.exit(1)
+
 webbrowser.get(sys.argv[2] if len(sys.argv) >= 3 else 'chrome').open(mdn_url)
