@@ -8,7 +8,7 @@ if len(sys.argv) < 2:
 
 feature = sys.argv[1].split(".")
 bcd_path = "/Users/vinyldarkscratch/Developer/git/browser-compat-data"
-browser = ['webview_android']
+browser = ['edge', 'edge_mobile']
 
 if len(sys.argv) >= 3:
 	browser = sys.argv[2].split(",")
@@ -72,20 +72,38 @@ def int_or_float(string):
 
 # 	return new_value
 
-## Chrome Android / Webview / Firefox Android
+## Edge
 def bump_version(value):
 	if isinstance(value, list):
 		new_value = []
 		for v in value:
 			new_value.append(bump_version(v))
-	if isinstance(value, dict):
+	else:
 		new_value = dict(value)
-		if isinstance(new_value['version_added'], str):
-			new_value['version_added'] = str(max(30, int_or_float(new_value['version_added'])))
-		if 'version_removed' in value:
-			if isinstance(new_value['version_removed'], str):
-				new_value['version_removed'] = str(max(30, int_or_float(new_value['version_removed'])))
+		if 'version_removed' in value and new_value['version_removed'] != None:
+			new_value['version_removed'] = False
+		elif new_value['version_added'] != None:
+			new_value['version_added'] = '12' if bool(new_value['version_added']) else None
+		if 'notes' in value:
+			if not isinstance(new_value['notes'], list):
+				new_value['notes'] = new_value['notes'].replace("Internet Explorer", "Edge")
+
 	return new_value
+
+## Chrome Android / Webview / Firefox Android
+# def bump_version(value):
+# 	if isinstance(value, list):
+# 		new_value = []
+# 		for v in value:
+# 			new_value.append(bump_version(v))
+# 	if isinstance(value, dict):
+# 		new_value = dict(value)
+# 		if isinstance(new_value['version_added'], str):
+# 			new_value['version_added'] = str(max(30, int_or_float(new_value['version_added'])))
+# 		if 'version_removed' in value:
+# 			if isinstance(new_value['version_removed'], str):
+# 				new_value['version_removed'] = str(max(30, int_or_float(new_value['version_removed'])))
+# 	return new_value
 
 def set_feature(feature_path, value, js):
 	root = feature_path.pop(0)
@@ -94,7 +112,7 @@ def set_feature(feature_path, value, js):
 	else:
 		if isinstance(js[root], dict):
 			if js[root]['version_added'] == None:
-				js[root] = bump_version(js['chrome_android'])
+				js[root] = bump_version(js['ie'])
 		else:
 			if value != None:
 				js[root] = value
