@@ -34,85 +34,106 @@ def int_or_float(string):
 	except:
 		return float(string)
 
-## Opera / Opera Android
-# def bump_version(value):
-# 	if isinstance(value, list):
-# 		new_value = []
-# 		for v in value:
-# 			new_value.append(bump_version(v))
-# 	else:
-# 		new_value = dict(value)
-# 		if isinstance(value['version_added'], str):
-# 			new_value['version_added'] = str(max(15, int(value['version_added']) - 13))
+def create_webview_range(value):
+	if value < 37: return "≤37"
+	return str(value)
 
-# 		if 'version_removed' in value:
-# 			if isinstance(value['version_removed'], str):
-# 				new_value['version_removed'] = str(max(15, int(value['version_removed']) - 13))
-
-# 		if 'notes' in value:
-# 			new_value['notes'] = new_value['notes'].replace("Chrome", "Opera")
-
-# 	return new_value
-
-## Samsung Internet
-# def bump_version(value):
-# 	if isinstance(value, list):
-# 		new_value = []
-# 		for v in value:
-# 			new_value.append(bump_version(v))
-# 	else:
-# 		new_value = dict(value)
-# 		if new_value['version_added'] != None:
-# 			new_value['version_added'] = bool(new_value['version_added'])
-# 		if 'version_removed' in value and new_value['version_removed'] != None:
-# 			new_value['version_removed'] = bool(new_value['version_removed'])
-# 		if 'notes' in value:
-# 			if not isinstance(new_value['notes'], list):
-# 				new_value['notes'] = new_value['notes'].replace("Chrome", "Samsung Internet")
-
-# 	return new_value
-
-## Edge
-def bump_version(value):
+def bump_version(value, browser):
 	if isinstance(value, list):
 		new_value = []
 		for v in value:
-			new_value.append(bump_version(v))
+			new_value.append(bump_version(v, browser))
 	else:
 		new_value = dict(value)
-		if 'version_removed' in value and new_value['version_removed'] != None:
-			new_value['version_removed'] = False
-		elif new_value['version_added'] != None:
-			new_value['version_added'] = '12' if bool(new_value['version_added']) else None
-		if 'notes' in value:
-			if not isinstance(new_value['notes'], list):
-				new_value['notes'] = new_value['notes'].replace("Internet Explorer", "Edge")
+
+		if browser == 'chrome_android':
+			if isinstance(new_value['version_added'], str):
+				new_value['version_added'] = str(max(15, int_or_float(new_value['version_added'])))
+
+			if 'version_removed' in value:
+				if isinstance(new_value['version_removed'], str):
+					new_value['version_removed'] = str(max(15, int_or_float(new_value['version_removed'])))
+
+		elif browser == 'edge':
+			if 'version_removed' in value and new_value['version_removed'] != None:
+				new_value['version_removed'] = False
+			elif new_value['version_added'] != None:
+				new_value['version_added'] = '12' if bool(new_value['version_added']) else None
+			
+			if 'notes' in value:
+				if not isinstance(new_value['notes'], list):
+					new_value['notes'] = new_value['notes'].replace("Internet Explorer", "Edge")
+
+		elif browser == 'firefox_android':
+			if isinstance(new_value['version_added'], str):
+				new_value['version_added'] = str(max(4, int_or_float(new_value['version_added'])))
+			
+			if 'version_removed' in value:
+				if isinstance(new_value['version_removed'], str):
+					new_value['version_removed'] = str(max(4, int_or_float(new_value['version_removed'])))
+
+		elif browser == 'opera':
+			if isinstance(value['version_added'], str):
+				new_value['version_added'] = str(max(15, int(value['version_added']) - 13))
+			
+			if 'version_removed' in value:
+				if isinstance(value['version_removed'], str):
+					new_value['version_removed'] = str(max(15, int(value['version_removed']) - 13))
+			
+			if 'notes' in value:
+				new_value['notes'] = new_value['notes'].replace("Chrome", "Opera")
+		
+		elif browser == 'opera_android':
+			if isinstance(value['version_added'], str):
+				new_value['version_added'] = str(max(15, int(value['version_added']) - 13))
+			
+			if 'version_removed' in value:
+				if isinstance(value['version_removed'], str):
+					new_value['version_removed'] = str(max(15, int(value['version_removed']) - 13))
+			
+			if 'notes' in value:
+				new_value['notes'] = new_value['notes'].replace("Chrome", "Opera")
+		
+		elif browser == 'samsunginternet_android':
+			if new_value['version_added'] != None:
+				new_value['version_added'] = bool(new_value['version_added'])
+			
+			if 'version_removed' in value and new_value['version_removed'] != None:
+				new_value['version_removed'] = bool(new_value['version_removed'])
+			
+			if 'notes' in value:
+				if not isinstance(new_value['notes'], list):
+					new_value['notes'] = new_value['notes'].replace("Chrome", "Samsung Internet")
+		
+		elif browser == 'webview_android':
+			if isinstance(new_value['version_added'], str):
+				new_value['version_added'] = create_webview_range(int_or_float(new_value['version_added']))
+			
+			if 'version_removed' in value:
+				if isinstance(new_value['version_removed'], str):
+					new_value['version_removed'] = create_webview_range(int_or_float(new_value['version_removed']))
+			
+			if 'notes' in value:
+				new_value['notes'] = new_value['notes'].replace("Chrome", "WebView")
 
 	return new_value
 
-## Chrome Android / Webview / Firefox Android
-# def bump_version(value):
-# 	if isinstance(value, list):
-# 		new_value = []
-# 		for v in value:
-# 			new_value.append(bump_version(v))
-# 	if isinstance(value, dict):
-# 		new_value = dict(value)
-# 		if isinstance(new_value['version_added'], str):
-# 			new_value['version_added'] = str(max(30, int_or_float(new_value['version_added'])))
-# 		if 'version_removed' in value:
-# 			if isinstance(new_value['version_removed'], str):
-# 				new_value['version_removed'] = str(max(30, int_or_float(new_value['version_removed'])))
-# 	return new_value
-
-def set_feature(feature_path, value, js):
+def set_feature(feature_path, value, js, browser):
 	root = feature_path.pop(0)
 	if len(feature_path) and isinstance(js[root], dict):
-		js[root] = set_feature(feature_path, value, js[root])
+		js[root] = set_feature(feature_path, value, js[root], browser)
 	else:
 		if isinstance(js[root], dict):
 			if js[root]['version_added'] == None:
-				js[root] = bump_version(js['ie'])
+				if browser in ['chrome_android', 'opera', 'opera_android', 'samsunginternet_android', 'webview_android']:
+					source_browser = 'chrome'
+				elif browser == 'firefox_android':
+					source_browser = 'firefox'
+				elif browser == 'edge':
+					source_browser = 'ie'
+				elif browser == 'safari_ios':
+					source_browser = 'safari'
+				js[root] = bump_version(js[source_browser], browser)
 		else:
 			if value != None:
 				js[root] = value
@@ -121,7 +142,7 @@ def set_feature(feature_path, value, js):
 for b in browser:
 	try:
 		fp = feature + ['__compat', 'support', b]
-		j = set_feature(fp, None, j)
+		j = set_feature(fp, None, j, b)
 	except KeyError:
 		pass
 
