@@ -124,7 +124,7 @@ def set_feature(feature_path, value, js, browser):
 		js[root] = set_feature(feature_path, value, js[root], browser)
 	else:
 		if isinstance(js[root], dict):
-			if js[root]['version_added'] == None:
+			if js[root]['version_added'] in [True, None]:
 				if browser in ['chrome_android', 'opera', 'opera_android', 'samsunginternet_android', 'webview_android']:
 					source_browser = 'chrome'
 				elif browser == 'firefox_android':
