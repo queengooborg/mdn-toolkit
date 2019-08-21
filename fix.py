@@ -8,7 +8,7 @@ if len(sys.argv) < 2:
 
 feature = sys.argv[1].split(".")
 bcd_path = "/Users/vinyldarkscratch/Developer/git/browser-compat-data"
-browser = ['edge', 'edge_mobile']
+browser = ['webview_android']
 
 if len(sys.argv) >= 3:
 	browser = sys.argv[2].split(",")
@@ -141,8 +141,10 @@ def set_feature(feature_path, value, js, browser):
 	else:
 		if isinstance(js[root], dict):
 			if js[root]['version_added'] in [True, None]:
-				if browser in ['chrome_android', 'opera', 'opera_android', 'samsunginternet_android', 'webview_android']:
+				if browser in ['chrome_android', 'opera']:
 					source_browser = 'chrome'
+				elif browser in ['opera_android', 'samsunginternet_android', 'webview_android']:
+					source_browser = 'chrome_android'
 				elif browser == 'firefox_android':
 					source_browser = 'firefox'
 				elif browser == 'edge':
