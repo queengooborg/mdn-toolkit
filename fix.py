@@ -101,11 +101,11 @@ def bump_version(value, browser):
 		
 		elif browser == 'opera_android':
 			if isinstance(value['version_added'], str):
-				new_value['version_added'] = str(max(15, int(value['version_added']) - 13))
+				new_value['version_added'] = str(max(14, int(value['version_added']) - 13))
 			
 			if 'version_removed' in value:
 				if isinstance(value['version_removed'], str):
-					new_value['version_removed'] = str(max(15, int(value['version_removed']) - 13))
+					new_value['version_removed'] = str(max(14, int(value['version_removed']) - 13))
 			
 			if 'notes' in value:
 				new_value['notes'] = new_value['notes'].replace("Chrome", "Opera")
