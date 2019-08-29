@@ -134,24 +134,32 @@ def bump_version(value, browser):
 
 	return new_value
 
+def do_bump_version(js, statement, browser):
+	if browser in ['chrome_android', 'opera']:
+		source_browser = 'chrome'
+	elif browser in ['opera_android', 'samsunginternet_android', 'webview_android']:
+		source_browser = 'chrome_android'
+	elif browser == 'firefox_android':
+		source_browser = 'firefox'
+	elif browser == 'edge':
+		source_browser = 'ie'
+	elif browser == 'safari_ios':
+		source_browser = 'safari'
+	if isinstance(statement, dict) and statement['version_added'] in [True, None]:
+		return bump_version(js[source_browser], browser)
+	if isinstance(statement, list):
+		for va in [s['version_added'] for s in statement]:
+			if va in [True, None]:
+				return bump_version(js[source_browser], browser)
+	return statement
+
 def set_feature(feature_path, value, js, browser):
 	root = feature_path.pop(0)
 	if len(feature_path) and isinstance(js[root], dict):
 		js[root] = set_feature(feature_path, value, js[root], browser)
 	else:
-		if isinstance(js[root], dict):
-			if js[root]['version_added'] in [True, None]:
-				if browser in ['chrome_android', 'opera']:
-					source_browser = 'chrome'
-				elif browser in ['opera_android', 'samsunginternet_android', 'webview_android']:
-					source_browser = 'chrome_android'
-				elif browser == 'firefox_android':
-					source_browser = 'firefox'
-				elif browser == 'edge':
-					source_browser = 'ie'
-				elif browser == 'safari_ios':
-					source_browser = 'safari'
-				js[root] = bump_version(js[source_browser], browser)
+		if isinstance(js[root], (dict, list)):
+			js[root] = do_bump_version(js, js[root], browser)
 		else:
 			if value != None:
 				js[root] = value
