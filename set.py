@@ -48,5 +48,5 @@ for b in browser:
 		pass
 
 with open(p, 'w') as f:
-	json.dump(j, f, indent=2)
+	json.dump(j, f, indent=2, ensure_ascii=False)
 	f.write("\n")
