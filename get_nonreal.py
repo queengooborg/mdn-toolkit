@@ -8,7 +8,7 @@ if len(sys.argv) < 2:
 bcd_path = "/Users/vinyldarkscratch/Developer/Gooborg/browser-compat-data"
 browsers = ['Chrome', 'Edge', 'Firefox', 'IE', 'Opera', 'Safari']
 folder = sys.argv[1]
-print_browsers = False
+print_browsers = True
 
 features = {}
 
@@ -24,8 +24,9 @@ for browser in browsers:
 			features[feature] = [browser]
 
 for feature in sorted(features.keys()):
-	print(feature)
-
+	output = feature
+	
 	if print_browsers:
-		for b in features[feature]:
-			print("\t- {0}".format(b))
+		output += " - {0}".format(", ".join(features[feature]))
+
+	print(output)
