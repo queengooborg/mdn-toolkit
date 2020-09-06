@@ -5,7 +5,7 @@ if len(sys.argv) < 2:
 	print("Usage: python get_nonreal.py <folder>")
 	sys.exit(0)
 
-bcd_path = "/Users/vinyldarkscratch/Developer/git/browser-compat-data"
+bcd_path = "/Users/vinyldarkscratch/Developer/Gooborg/browser-compat-data"
 browsers = ['Chrome', 'Edge', 'Firefox', 'IE', 'Opera', 'Safari']
 folder = sys.argv[1]
 print_browsers = False
