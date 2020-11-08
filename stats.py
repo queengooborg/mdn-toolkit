@@ -18,8 +18,9 @@ def parse(string):
 	for r in rows:
 		data[r[0]] = {
 			'real': float(r[1][0:-1]),
-			'true': float(r[2][0:-1]),
-			'null': float(r[3][0:-1])
+			'ranged': float(r[2][0:-1]),
+			'true': float(r[3][0:-1]),
+			'null': float(r[4][0:-1])
 		}
 
 	return data
