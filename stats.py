@@ -25,17 +25,18 @@ def parse(string):
 
 	return data
 
-master = """| browser | real values | `true` values | `null` values |
-| --- | --- | --- | --- |
-| total | 55.87% | 22.49% | 21.64% |
-| chrome | 66.15% | 24.43% | 9.42% |
-| chrome android | 51.11% | 32.40% | 16.49% |
-| edge | 55.70% | 20.01% | 24.30% |
-| firefox | 73.89% | 13.52% | 12.59% |
-| ie | 60.66% | 14.81% | 24.53% |
-| safari | 49.77% | 19.16% | 31.07% |
-| safari ios | 41.59% | 20.64% | 37.79% |
-| webview android | 48.09% | 34.95% | 16.96% |"""
+# Last run on 2.0.5
+master = """| browser | real values | ranged values | `true` values | `null` values |
+| --- | --- | --- | --- | --- |
+| total | 76.14% | 2.54% | 12.56% | 8.76% |
+| chrome | 81.66% | 0.00% | 13.03% | 5.31% |
+| chrome android | 76.41% | 0.00% | 18.07% | 5.52% |
+| edge | 80.84% | 14.34% | 0.02% | 4.81% |
+| firefox | 81.09% | 0.00% | 11.85% | 7.05% |
+| ie | 81.94% | 0.00% | 7.55% | 10.51% |
+| safari | 72.36% | 0.00% | 12.78% | 14.86% |
+| safari ios | 68.09% | 0.00% | 15.35% | 16.56% |
+| webview android | 66.76% | 5.98% | 21.84% | 5.43% |"""
 
 os.chdir(os.path.abspath("../browser-compat-data"))
 branch = str(subprocess.check_output(['npm', 'run', 'stats'])).replace("\\n", "\n")
