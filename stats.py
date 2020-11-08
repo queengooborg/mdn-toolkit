@@ -36,7 +36,7 @@ def compare(browser, before, after):
 	print("| {0} (after) | {1[real]:.2f}% **({2[real]:+.2f}%)** | {1[ranged]:.2f}% **({2[ranged]:+.2f}%)** | {1[true]:.2f}% **({2[true]:+.2f}%)** | {1[null]:.2f}% **({2[null]:+.2f}%)** |".format(browser, after, diff))
 
 # Last run on 2.0.5
-master = """| browser | real values | ranged values | `true` values | `null` values |
+last_release = """| browser | real values | ranged values | `true` values | `null` values |
 | --- | --- | --- | --- | --- |
 | total | 76.14% | 2.54% | 12.56% | 8.76% |
 | chrome | 81.66% | 0.00% | 13.03% | 5.31% |
@@ -52,7 +52,7 @@ os.chdir(os.path.abspath("../browser-compat-data"))
 branch = str(subprocess.check_output(['npm', 'run', 'stats'])).replace("\\n", "\n")
 
 data = {
-	'before': parse(master),
+	'before': parse(last_release),
 	'after': parse(branch)
 }
 
