@@ -6,7 +6,7 @@ if len(sys.argv) < 2:
 	sys.exit(0)
 
 bcd_path = "/Users/vinyldarkscratch/Developer/Gooborg/browser-compat-data"
-browsers = ['Chrome', 'Edge', 'Firefox', 'IE', 'Opera', 'Safari']
+browsers = ['Chrome', 'Edge', 'Firefox', 'IE', 'Safari']
 folder = sys.argv[1]
 print_browsers = True
 
