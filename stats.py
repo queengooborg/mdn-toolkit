@@ -36,7 +36,7 @@ master = """| browser | real values | `true` values | `null` values |
 | safari ios | 41.59% | 20.64% | 37.79% |
 | webview android | 48.09% | 34.95% | 16.96% |"""
 
-os.chdir("/Users/vinyldarkscratch/Developer/git/browser-compat-data")
+os.chdir(os.path.abspath("../browser-compat-data"))
 branch = str(subprocess.check_output(['npm', 'run', 'stats'])).replace("\\n", "\n")
 
 data = {

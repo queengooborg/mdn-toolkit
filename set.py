@@ -7,7 +7,7 @@ if len(sys.argv) < 2:
 	sys.exit(1)
 
 feature = sys.argv[1].split(".")
-bcd_path = "/Users/vinyldarkscratch/Developer/git/browser-compat-data"
+bcd_path = os.path.abspath("../browser-compat-data")
 state = True
 browser = ['firefox', 'firefox_android']
 
