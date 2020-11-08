@@ -1,6 +1,7 @@
 import os
 import sys
 import widlparser
+from pathlib import Path
 
 prefix_list = ["", "webkit", "Webkit", "WebKit", "Moz", "moz"]
 
@@ -15,8 +16,10 @@ elif browser == 'chrome':
 elif browser == 'safari':
 	webidl_path = "/Users/vinyldarkscratch/Developer/browsers/WebKit/Source"
 
+Path("generated").mkdir(exist_ok=True)
+
 data = ""
-with open("%s_null.txt" %browser) as f:
+with open("generated/{0}_null.txt".format(browser), 'r') as f:
 	entries_to_check = [l.replace("\n", "") for l in f.readlines() if l.startswith("api.")]
 
 def dir_walk(path):
@@ -82,12 +85,12 @@ for fn in files:
 		new_data = f.read()
 		data += new_data
 
-with open("{0}.idl".format(browser), 'w') as f:
+with open("generated/{0}.idl".format(browser), 'w') as f:
 	f.write(data)
 
 widl = widlparser.parser.Parser(data)
 
-with open("{0}.data.txt".format(browser), 'w') as f:
+with open("generated/{0}.data.txt".format(browser), 'w') as f:
 	for entry in entries_to_check:
 		c = check_entry(entry)
 		f.write("%s - %s\n" %(entry, c))
