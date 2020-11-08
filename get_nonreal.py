@@ -1,3 +1,4 @@
+import re
 import os
 import sys
 import subprocess
@@ -9,7 +10,41 @@ if len(sys.argv) < 2:
 bcd_path = os.path.abspath("../browser-compat-data")
 browsers = ['Chrome', 'Edge', 'Firefox', 'IE', 'Safari']
 folder = sys.argv[1]
-print_browsers = True
+
+categories = {
+	'api': {
+		'Authentication': r'.*Credential.*',
+		'Canvas/WebGL': r'(Canvas|Paint|WebGL|(ANGLE|OES|WEBGL)_).*',
+		'Console': r'Console',
+		'CSS': r'CSS.*',
+		'Document/Shadow Root': r'(Document|ShadowRoot).*',
+		'DOM': r'DOM(Error|Exception|Implementation|String|Token).*',
+		'Element': r'Element',
+		'Event': r'.*Event.*',
+		'File': r'File.*',
+		'Font': r'Font.*',
+		'Gamepad': r'Gamepad.*',
+		'Geometry': r'(DOM(Point|Rect).*|Geometry.*|WebKitCSSMatrix)',
+		'History': r'History',
+		'HTML Element': r'HTML.*',
+		'IDB': r'IDB.*',
+		'Location': r'Location',
+		'Multimedia': r'((Local)?Media|.*Track|VTTCue).*',
+		'Navigator': r'Navigator.*',
+		'Node': r'(Child|Named)?Node.*',
+		'Payment': r'(BasicCard|Payer|Payment).*',
+		'Performance': r'Performance.*',
+		'Range/Selection': r'(Range|Selection).*',
+		'RTC': r'RTC.*',
+		'SVG': r'SVG.*',
+		'Web Audio': r'((Audio|BaseAudio).*|.*Node(List)?)',
+		'URL': r'URL.*',
+		'Window': r'Window.*',
+		'Worker': r'.*Worker.*',
+		'XR': r'.*VR.*',
+		'XML/XSLT': r'(XML|XPath|XSLT).*'
+	}
+}
 
 features = {}
 
@@ -18,16 +53,32 @@ for browser in browsers:
 
 	for f in result:
 		feature = f.split(" (")[0]
-		if feature in features:
-			if browser not in features[feature]:
-				features[feature].append(browser)
+		feature_parts = feature.split('.')
+		category = "zzzzz Misc."
+
+		if feature_parts[0] in categories:
+			for cat, regex in categories[feature_parts[0]].items():
+				if re.match(regex, feature_parts[1]):
+					category = cat
+					break
+
+		if category not in features:
+			features[category] = {}
+
+		if feature in features[category]:
+			if browser not in features[category][feature]:
+				features[category][feature].append(browser)
 		else:
-			features[feature] = [browser]
+			features[category][feature] = [browser]
 
-for feature in sorted(features.keys()):
-	output = feature
-	
-	if print_browsers:
-		output += " - {0}".format(", ".join(features[feature]))
+for category in sorted(features.keys()):
+	print("<details>\n<summary>{0}</summary>".format(
+		category.replace("zzzzz ", "")
+	))
 
-	print(output)
+	for feature in sorted(features[category].keys()):
+		print("{0} - {1}<br />".format(
+			feature, ", ".join(features[category][feature])
+		))
+
+	print("</details>\n")
