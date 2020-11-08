@@ -25,6 +25,16 @@ def parse(string):
 
 	return data
 
+def compare(browser, before, after):
+	diff = {
+		'real': after['real']-before['real'],
+		'ranged': after['ranged']-before['ranged'],
+		'true': after['true']-before['true'],
+		'null': after['null']-before['null']
+	}
+	print("| {0} (before) | {1[real]:.2f}% | {1[ranged]:.2f}% | {1[true]:.2f}% | {1[null]:.2f}% |".format(browser, before))
+	print("| {0} (after) | {1[real]:.2f}% **({2[real]:+.2f}%)** | {1[ranged]:.2f}% **({2[ranged]:+.2f}%)** | {1[true]:.2f}% **({2[true]:+.2f}%)** | {1[null]:.2f}% **({2[null]:+.2f}%)** |".format(browser, after, diff))
+
 # Last run on 2.0.5
 master = """| browser | real values | ranged values | `true` values | `null` values |
 | --- | --- | --- | --- | --- |
@@ -46,11 +56,9 @@ data = {
 	'after': parse(branch)
 }
 
-print("| browser | real values | `true` values | `null` values |")
-print("| --- | --- | --- | --- |")
-print("| {0} (before) | {1:.2f}% | {2:.2f}% | {3:.2f}% |".format('total', data['before']['total']['real'], data['before']['total']['true'], data['before']['total']['null']))
-print("| {0} (after) | {1:.2f}% ({4:+.2f}%) | {2:.2f}% ({5:+.2f}%) | {3:.2f}% ({6:+.2f}%) |".format('total', data['after']['total']['real'], data['after']['total']['true'], data['after']['total']['null'], data['after']['total']['real']-data['before']['total']['real'], data['after']['total']['true']-data['before']['total']['true'], data['after']['total']['null']-data['before']['total']['null']))
+print("| browser | real values | ranged values | `true` values | `null` values |")
+print("| --- | --- | --- | --- | --- |")
+compare('total', data['before']['total'], data['after']['total'])
 for browser in browsers:
-	print("| {0} (before) | {1:.2f}% | {2:.2f}% | {3:.2f}% |".format(browser, data['before'][browser]['real'], data['before'][browser]['true'], data['before'][browser]['null']))
-	print("| {0} (after) | {1:.2f}% ({4:+.2f}%) | {2:.2f}% ({5:+.2f}%) | {3:.2f}% ({6:+.2f}%) |".format(browser, data['after'][browser]['real'], data['after'][browser]['true'], data['after'][browser]['null'], data['after'][browser]['real']-data['before'][browser]['real'], data['after'][browser]['true']-data['before'][browser]['true'], data['after'][browser]['null']-data['before'][browser]['null']))
+	compare(browser, data['before'][browser], data['after'][browser])
 
