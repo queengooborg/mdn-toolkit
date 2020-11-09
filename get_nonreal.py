@@ -11,8 +11,10 @@ bcd_path = os.path.abspath("../browser-compat-data")
 browsers = ['Chrome', 'Edge', 'Firefox', 'IE', 'Safari']
 folder = sys.argv[1]
 
+# The script will pick the first matching category in the following order
 categories = {
 	'api': {
+		'RTC': r'RTC.*',
 		'Authentication': r'.*Credential.*',
 		'Canvas/WebGL': r'(Canvas|Paint|WebGL|(ANGLE|OES|WEBGL)_).*',
 		'Console': r'Console',
@@ -20,7 +22,6 @@ categories = {
 		'Document/Shadow Root': r'(Document|ShadowRoot).*',
 		'DOM': r'DOM(Error|Exception|Implementation|String|Token).*',
 		'Element': r'Element',
-		'Event': r'.*Event.*',
 		'File': r'File.*',
 		'Font': r'Font.*',
 		'Gamepad': r'Gamepad.*',
@@ -35,19 +36,18 @@ categories = {
 		'Payment': r'(BasicCard|Payer|Payment).*',
 		'Performance': r'Performance.*',
 		'Range/Selection': r'(Range|Selection).*',
-		'RTC': r'RTC.*',
 		'SVG': r'SVG.*',
 		'Web Audio': r'((Audio|BaseAudio).*|.*Node(List)?)',
 		'URL': r'URL.*',
 		'Window': r'Window.*',
 		'Worker': r'.*Worker.*',
 		'XR': r'.*VR.*',
-		'XML/XSLT': r'(XML|XPath|XSLT).*'
+		'XML/XSLT': r'(XML|XPath|XSLT).*',
+		'Event': r'.*Event.*'
 	}
 }
 
 features = {}
-
 for browser in browsers:
 	result = subprocess.run(['node', 'scripts/traverse.js', browser.lower(), folder], cwd=bcd_path, stdout=subprocess.PIPE).stdout.decode('utf-8').split('\n')[0:-2]
 
