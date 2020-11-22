@@ -2,6 +2,8 @@ import sys
 import os
 import subprocess
 
+bcd_path = os.path.abspath("../browser-compat-data")
+
 browsers = ['chrome', 'chrome android', 'edge', 'firefox', 'ie', 'safari', 'safari ios', 'webview android']
 if len(sys.argv) >= 2:
 	if sys.argv[1] == 'chrome':
@@ -48,7 +50,7 @@ last_release = """| browser | real values | ranged values | `true` values | `nul
 | safari ios | 68.09% | 0.00% | 15.35% | 16.56% |
 | webview android | 66.76% | 5.98% | 21.84% | 5.43% |"""
 
-os.chdir(os.path.abspath("../browser-compat-data"))
+os.chdir(bcd_path)
 branch = str(subprocess.check_output(['npm', 'run', 'stats'])).replace("\\n", "\n")
 
 data = {
