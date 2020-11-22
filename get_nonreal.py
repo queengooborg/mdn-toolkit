@@ -4,11 +4,11 @@ import sys
 import subprocess
 
 if len(sys.argv) < 2:
-	print("Usage: python get_nonreal.py <folder>")
+	print("Usage: python get_nonreal.py <folder> [browser]")
 	sys.exit(0)
 
 bcd_path = os.path.abspath("../browser-compat-data")
-browsers = ['Chrome', 'Edge', 'Firefox', 'IE', 'Safari']
+browsers = [sys.argv[2]] if len(sys.argv) > 2 else ['Chrome', 'Edge', 'Firefox', 'IE', 'Safari']
 folder = sys.argv[1]
 
 # The script will pick the first matching category in the following order
