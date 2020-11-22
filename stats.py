@@ -37,18 +37,18 @@ def compare(browser, before, after):
 	print("| {0} (before) | {1[real]:.2f}% | {1[ranged]:.2f}% | {1[true]:.2f}% | {1[null]:.2f}% |".format(browser, before))
 	print("| {0} (after) | {1[real]:.2f}% **({2[real]:+.2f}%)** | {1[ranged]:.2f}% **({2[ranged]:+.2f}%)** | {1[true]:.2f}% **({2[true]:+.2f}%)** | {1[null]:.2f}% **({2[null]:+.2f}%)** |".format(browser, after, diff))
 
-# Last run on 2.0.5
+# Last run on 2.0.7
 last_release = """| browser | real values | ranged values | `true` values | `null` values |
 | --- | --- | --- | --- | --- |
-| total | 76.14% | 2.54% | 12.56% | 8.76% |
-| chrome | 81.66% | 0.00% | 13.03% | 5.31% |
-| chrome android | 76.41% | 0.00% | 18.07% | 5.52% |
-| edge | 80.84% | 14.34% | 0.02% | 4.81% |
-| firefox | 81.09% | 0.00% | 11.85% | 7.05% |
-| ie | 81.94% | 0.00% | 7.55% | 10.51% |
-| safari | 72.36% | 0.00% | 12.78% | 14.86% |
-| safari ios | 68.09% | 0.00% | 15.35% | 16.56% |
-| webview android | 66.76% | 5.98% | 21.84% | 5.43% |"""
+| total | 77.05% | 2.97% | 11.72% | 8.25% |
+| chrome | 81.68% | 0.00% | 13.01% | 5.31% |
+| chrome android | 76.44% | 0.00% | 18.05% | 5.50% |
+| edge | 80.96% | 14.22% | 0.03% | 4.79% |
+| firefox | 82.50% | 0.00% | 10.60% | 6.89% |
+| ie | 81.97% | 0.00% | 7.51% | 10.51% |
+| safari | 74.58% | 1.84% | 10.58% | 13.01% |
+| safari ios | 71.53% | 1.75% | 12.16% | 14.57% |
+| webview android | 66.76% | 5.99% | 21.83% | 5.43% |"""
 
 os.chdir(bcd_path)
 branch = str(subprocess.check_output(['npm', 'run', 'stats'])).replace("\\n", "\n")
