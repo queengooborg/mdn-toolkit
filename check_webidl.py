@@ -5,16 +5,20 @@ from pathlib import Path
 
 prefix_list = ["", "webkit", "Webkit", "WebKit", "Moz", "moz"]
 
-browser = 'firefox'
-if len(sys.argv) > 1:
-	browser = sys.argv[1]
+if len(sys.argv) == 1:
+	print("Usage: python check_webidl.py <browser>")
+	sys.exit(1)
 
+browser = sys.argv[1]
 if browser == 'firefox':
 	webidl_path = "/Users/vinyldarkscratch/Developer/browsers/gecko-dev/dom/webidl"
 elif browser == 'chrome':
 	webidl_path = "/Users/vinyldarkscratch/Developer/browsers/chromium/src/third_party/blink"
 elif browser == 'safari':
 	webidl_path = "/Users/vinyldarkscratch/Developer/browsers/WebKit/Source"
+else:
+	print("Browser {0} unknown!".format(browser))
+	sys.exit(1)
 
 Path("generated").mkdir(exist_ok=True)
 
