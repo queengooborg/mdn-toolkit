@@ -4,7 +4,7 @@ import os
 import webbrowser
 
 if len(sys.argv) < 2:
-	print("Not enough arguments!  Usage: python open_docs.py <feature> [browser]")
+	print("Usage: python open_docs.py <feature> [browser]")
 	sys.exit(1)
 
 feature = sys.argv[1].split(".")

@@ -3,7 +3,7 @@ import sys
 import os
 
 if len(sys.argv) < 2:
-	print("Not enough arguments!  Usage: python set.py <feature> [browser(s)] [value]")
+	print("Usage: python set.py <feature> [browser1,browser2...] [value]")
 	sys.exit(1)
 
 feature = sys.argv[1].split(".")

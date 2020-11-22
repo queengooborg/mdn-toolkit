@@ -61,4 +61,3 @@ print("| --- | --- | --- | --- | --- |")
 compare('total', data['before']['total'], data['after']['total'])
 for browser in browsers:
 	compare(browser, data['before'][browser], data['after'][browser])
-
