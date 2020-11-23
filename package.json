@@ -1,0 +1,19 @@
+{
+  "name": "bcd-toolkit",
+  "version": "1.0.0",
+  "description": "bcd-toolkit",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinyldarkscratch/bcd-toolkit.git"
+  },
+  "author": "Vinyl Darkscratch [https://www.queengoob.org]",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/vinyldarkscratch/bcd-toolkit/issues"
+  },
+  "homepage": "https://github.com/vinyldarkscratch/bcd-toolkit#readme",
+  "dependencies": {
+    "@mdn/browser-compat-data": "^2.0.7"
+  }
+}
