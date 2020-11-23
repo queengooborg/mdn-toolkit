@@ -26,6 +26,17 @@ This script is a part of an attempt to set true/false values based upon implemen
 python check_webidl.py <browser>
 ```
 
+### compare_stats.py
+This script calculates the statistics difference between the latest BCD release and the current `HEAD` of the local clone.
+
+#### Usage
+```
+python compare_stats.py [browser]
+```
+
+#### Caveats
+Currently, the latest BCD release stats must be manually calculated.
+
 ### get_nonreal.py
 This script iterates through the values of BCD to find any non-real values (`true` or `null` values), and calculates an HTML-formatted, categorized list of entries.
 
@@ -49,14 +60,3 @@ This script is a command-line to quickly set a feature to a specific value.
 ```
 python set.py <feature> [browser1,browser2...] [value]
 ```
-
-### stats.py
-This script calculates the statistics difference between the latest BCD release and the current `HEAD` of the local clone.
-
-#### Usage
-```
-python stats.py [browser]
-```
-
-#### Caveats
-Currently, the latest BCD release stats must be manually calculated.
