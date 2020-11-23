@@ -8,7 +8,7 @@ if len(sys.argv) < 2:
 	sys.exit(1)
 
 feature = sys.argv[1].split(".")
-bcd_path = os.path.abspath("../browser-compat-data")
+bcd_path = os.path.abspath("./node_modules/@mdn/browser-compat-data")
 
 p = bcd_path
 i = 0
