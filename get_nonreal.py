@@ -18,7 +18,7 @@ categories = {
 		'Authentication': r'.*Credential.*',
 		'Canvas/WebGL': r'(Canvas|Paint|WebGL|(ANGLE|OES|WEBGL)_).*',
 		'Console': r'Console',
-		'CSS': r'CSS.*',
+		'CSS': r'(CSS|Media(List|Query)).*',
 		'Document/Shadow Root': r'(Document|ShadowRoot).*',
 		'DOM': r'DOM(Error|Exception|Implementation|String|Token).*',
 		'Element': r'Element',
