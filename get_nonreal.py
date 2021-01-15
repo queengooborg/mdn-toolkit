@@ -49,7 +49,7 @@ categories = {
 
 features = {}
 for browser in browsers:
-	result = subprocess.run(['node', 'scripts/traverse.js', browser.lower(), folder], cwd=bcd_path, stdout=subprocess.PIPE).stdout.decode('utf-8').split('\n')[0:-2]
+	result = subprocess.run(['node', 'scripts/traverse.js', browser.replace(' ', '').lower(), folder], cwd=bcd_path, stdout=subprocess.PIPE).stdout.decode('utf-8').split('\n')[0:-2]
 
 	for f in result:
 		feature = f.split(" (")[0]
