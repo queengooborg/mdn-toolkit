@@ -51,13 +51,14 @@ case $newbcd in
   done;
   case $newbcd in
     [RrEe*] ) ;;
-    * ) read -n 1 -p "Method? (mdn-bcd-collecto[R]/[m]anual/m[i]rror/[c]ommit/[b]ug/[o]ther) " method
+    * ) read -n 1 -p "Method? (mdn-bcd-collecto[R]/[m]anual/m[i]rror/[w]pt.fyi/[c]ommit/[b]ug/[o]ther) " method
       [[ ! -z $method ]] && echo ""
       case $method in 
         [Cc*] ) read -p "Commit: " commit;;
         [Mm*] ) read -p "Test Code (leave blank to link collector): " testcode;;
         [Bb*] ) read -p "Bug: " bug;;
         [Oo*] ) read -p "Reason: " reason;;
+        [Ww*] ) read -p "WPT.fyi Link: " link;;
       esac;;
   esac;;
 esac;
@@ -150,6 +151,11 @@ case $method in
     git commit -m "Add $browseropt versions for $title" -m "" -m "This PR adds real values for $browser for the \`$feature\` $category, based upon information in a tracking bug." -m "" -m "Tracking Bug: $bug" -q
   else
     git commit -m "Add $browseropt versions for $title" -m "" -m "This PR adds real values for $browser for the \`$member\` member of the \`$feature\` $category, based upon information in a tracking bug." -m "" -m "Tracking Bug: $bug" -q
+  fi;;
+  [Ww*]) if [ -z $member ]; then
+    git commit -m "Add $browseropt versions for $title" -m "" -m "This PR adds real values for $browser for the \`$feature\` $category, based upon results from WPT.fyi." -m "" -m "Test Used: $link" -q
+  else
+    git commit -m "Add $browseropt versions for $title" -m "" -m "This PR adds real values for $browser for the \`$member\` member of the \`$feature\` $category, based upon results from WPT.fyi." -m "" -m "Test Used: $link" -q
   fi;;
   [Oo*])
     if [ -z $member ]; then
