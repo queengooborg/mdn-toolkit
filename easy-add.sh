@@ -1,6 +1,6 @@
 #!/bin/bash
 
-collectorversion="3.1.8"
+collectorversion="3.1.10"
 echo ""
 read -n 1 -p "New BCD? ([y]es/new [f]ile/[N]o/[c]orrections/flag [r][e]moval (by flag/file)) " newbcd
 [[ ! -z $newbcd ]] && echo ""
