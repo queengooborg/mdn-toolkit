@@ -56,7 +56,13 @@ case $newbcd in
       case $method in 
         [Cc*] ) read -p "Commit: " commit;;
         [Mm*] ) read -p "Test Code/Page (leave blank to link collector): " testcode;;
-        [Bb*] ) read -p "Bug: " bug;;
+        [Bb*] )
+          case $browserid in
+            chrome|opera|webview) read -p "Chromium Bug ID: " bugid; bug="https://crbug.com/${bugid}";;
+            firefox) read -p "Bugzilla Bug ID": bugid; bug="https://bugzil.la/${bugid}";;
+            safari|safariios|webkit) read -p "WebKit Bug ID": bugid; bug="https://webkit.org/b/${bugid}";;
+            *) read -p "Bug Link: " bug;;
+          esac;;
         [Oo*] ) read -p "Reason: " reason;;
       esac;;
   esac;;
