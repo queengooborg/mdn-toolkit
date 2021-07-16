@@ -170,7 +170,12 @@ case $method in
       git commit -m "Add $browseropt versions for $title" -m "" -m "This PR adds real values for $browser for the \`$member\` member of the \`$feature\` $category.  $reason" -q
     fi;;
   *) case $newbcd in
-    [Yy*] ) git commit -m "Add missing features for $title" -m "" -m "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser.  This particular PR adds missing features, populating the results using data from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion), for the \`$feature\` $category." -m "" -m "Spec: $spec" -m "Tests Used: $collectorurl" -q;;
+    [Yy*] ) 
+      if [ -z $member ]; then
+        git commit -m "Add missing features for $title" -m "" -m "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser.  This particular PR adds the missing features of the $feature $category, populating the results using data from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Spec: $spec" -m "Tests Used: $collectorurl" -q
+      else
+        git commit -m "Add missing $title feature" -m "" -m "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser.  This particular PR adds the missing $feature $category feature, populating the results using data from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Spec: $spec" -m "Tests Used: $collectorurl" -q
+      fi;;
     [Ff*] ) git commit -m "Add missing $title" -m "" -m "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser.  This particular PR adds the missing \`$feature\` $category, populating the results using data from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Spec: $spec" -m "Tests Used: $collectorurl" -q;;
     [Cc*] ) if [ -z $member ]; then
       git commit -m "Update $browseropt versions for $title" -m "" -m "This PR updates and corrects the real values for $browser for the \`$feature\` $category, based upon results from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Tests Used: $collectorurl" -q;
