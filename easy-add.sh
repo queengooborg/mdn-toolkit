@@ -31,7 +31,7 @@ case $catopt in
   * ) cat=api; category=API;;
 esac;
 case $newbcd in
-  [YyFf*] ) read -p "Spec URL: " spec;;
+  [YyFf*] ) ;;
   [Rr*] ) read -p "Flag: " flag;;
   * ) echo "Browser: "; select browseropt in Chromium Edge Firefox IE "IE/Edge" Opera Safari "Safari iOS" "Chrome/Safari" "WebView" "all browsers"; do
     case $browseropt in
@@ -172,11 +172,11 @@ case $method in
   *) case $newbcd in
     [Yy*] ) 
       if [ -z $member ]; then
-        git commit -m "Add missing features for $title" -m "" -m "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser.  This particular PR adds the missing features of the $feature $category, populating the results using data from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Spec: $spec" -m "Tests Used: $collectorurl" -q
+        git commit -m "Add missing features for $title" -m "" -m "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser.  This particular PR adds the missing features of the $feature $category, populating the results using data from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Tests Used: $collectorurl" -q
       else
-        git commit -m "Add missing $title feature" -m "" -m "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser.  This particular PR adds the missing \`$member\` member of the $feature $category, populating the results using data from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Spec: $spec" -m "Tests Used: $collectorurl" -q
+        git commit -m "Add missing $title feature" -m "" -m "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser.  This particular PR adds the missing \`$member\` member of the $feature $category, populating the results using data from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Tests Used: $collectorurl" -q
       fi;;
-    [Ff*] ) git commit -m "Add missing $title" -m "" -m "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser.  This particular PR adds the missing \`$feature\` $category, populating the results using data from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Spec: $spec" -m "Tests Used: $collectorurl" -q;;
+    [Ff*] ) git commit -m "Add missing $title" -m "" -m "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser.  This particular PR adds the missing \`$feature\` $category, populating the results using data from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Tests Used: $collectorurl" -q;;
     [Cc*] ) if [ -z $member ]; then
       git commit -m "Update $browseropt versions for $title" -m "" -m "This PR updates and corrects the real values for $browser for the \`$feature\` $category, based upon results from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Tests Used: $collectorurl" -q;
       else
