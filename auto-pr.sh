@@ -2,8 +2,8 @@
 
 collectorversion="3.2.2"
 echo ""
-read -n 1 -p "New BCD? ([y]es/new [f]ile/[N]o/[c]orrections/feature [r]emoval/f[l][a]g removal (by flag/file)) " newbcd
-[[ ! -z $newbcd ]] && echo ""
+read -n 1 -p "PR type? ([y]es/new [f]ile/[N]o/[c]orrections/feature [r]emoval/f[l][a]g removal (by flag/file)) " prtype
+[[ ! -z $prtype ]] && echo ""
 read -n 1 -p "Category? ([A]pi/[c]ss/[h]tml/h[t]tp/[j]avascript/[s]vg/web[d]river/web[e]xtensions) " catopt
 [[ ! -z $catopt ]] && echo ""
 case $catopt in
@@ -30,7 +30,7 @@ case $catopt in
   [Ee*] ) cat=webextensions; category="Webextensions feature";;
   * ) cat=api; category=API;;
 esac;
-case $newbcd in
+case $prtype in
   [YyFfRr*] ) ;;
   [Ll*] ) read -p "Flag: " flag;;
   * ) echo "Browser: "; select browseropt in Chromium Edge Firefox IE "IE/Edge" Opera Safari "Safari iOS" "Chrome/Safari" "WebView" "all browsers"; do
@@ -49,7 +49,7 @@ case $newbcd in
       "all browsers") browserid="all"; browser="all browsers"; break;;
     esac;
   done;
-  case $newbcd in
+  case $prtype in
     [RrLlAa*] ) ;;
     * ) read -n 1 -p "Method? (mdn-bcd-collecto[R]/[m]anual/m[i]rror/[c]ommit/[b]ug/[o]ther) " method
       [[ ! -z $method ]] && echo ""
@@ -67,7 +67,7 @@ case $newbcd in
       esac;;
   esac;;
 esac;
-case $newbcd in
+case $prtype in
   [Ll*] ) doadd=n;
     echo ""
     npm run lint $cat
@@ -77,7 +77,7 @@ case $newbcd in
       echo ""
     fi;;
   * ) read -p "$category: " feature
-    case $newbcd in
+    case $prtype in
       [FfYy*] ) ;;
       * ) read -p "Member (if applicable): " member;;
     esac;
@@ -91,7 +91,7 @@ case $newbcd in
       echo ""
     fi;;
 esac;
-case $newbcd in
+case $prtype in
   [Ff*] ) branch=$cat/${feature//\*/};;
   [Yy*] ) branch=$cat/${feature//\*/}/additions;;
   [Cc*] ) if [ -z $member ]; then
@@ -174,7 +174,7 @@ case $method in
     else
       git commit -m "Add $browseropt versions for $title" -m "" -m "This PR adds real values for $browser for the \`$member\` member of the \`$feature\` $category.  $reason" -q
     fi;;
-  *) case $newbcd in
+  *) case $prtype in
     [Yy*] ) 
       if [ -z $member ]; then
         git commit -m "Add missing features for $title" -m "" -m "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser.  This particular PR adds the missing features of the $feature $category, populating the results using data from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Tests Used: $collectorurl" -q
@@ -215,7 +215,7 @@ case $method in
 esac;
 case $customize in
   [Yy*] ) gh pr create;;
-  *) case $method in
+  *) case $prtype in
     [Rr*] ) gh pr create --fill -l "needs-release-note :newspaper:" -l "needs content update 📝";;
     * ) gh pr create --fill;;
   esac;;
