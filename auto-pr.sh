@@ -213,12 +213,9 @@ case $method in
     fi;;
   esac;
 esac;
-case $customize in
-  [Yy*] ) gh pr create;;
-  *) case $prtype in
-    [Rr*] ) gh pr create --fill -l "needs-release-note :newspaper:" -l "needs content update 📝";;
-    * ) gh pr create --fill;;
-  esac;;
+case $prtype in
+  [Rr*] ) gh pr create --fill -l "needs-release-note :newspaper:" -l "needs content update 📝";;
+  * ) gh pr create --fill;;
 esac;
 case $doadd in
   [NnCc*] ) git stash;;
