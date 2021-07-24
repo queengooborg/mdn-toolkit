@@ -106,9 +106,9 @@ case $prtype in
     branch=$cat/${feature//\*/}/${member//./\/}/$browserid-flagremoval;
   fi;;
   [Rr*] ) if [ -z $member ]; then
-    branch=$cat/${feature//\*/}/$browserid-removal;
+    branch=$cat/${feature//\*/}/removal;
   else
-    branch=$cat/${feature//\*/}/${member//./\/}/$browserid-removal;
+    branch=$cat/${feature//\*/}/${member//./\/}/removal;
   fi;;
   * ) if [ -z $member ]; then
     branch=$cat/${feature//\*/}/$browserid;
