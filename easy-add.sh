@@ -2,7 +2,7 @@
 
 collectorversion="3.2.2"
 echo ""
-read -n 1 -p "New BCD? ([y]es/new [f]ile/[N]o/[c]orrections/flag [r][e]moval (by flag/file)) " newbcd
+read -n 1 -p "New BCD? ([y]es/new [f]ile/[N]o/[c]orrections/feature [r]emoval/f[l][a]g removal (by flag/file)) " newbcd
 [[ ! -z $newbcd ]] && echo ""
 read -n 1 -p "Category? ([A]pi/[c]ss/[h]tml/h[t]tp/[j]avascript/[s]vg/web[d]river/web[e]xtensions) " catopt
 [[ ! -z $catopt ]] && echo ""
@@ -31,8 +31,8 @@ case $catopt in
   * ) cat=api; category=API;;
 esac;
 case $newbcd in
-  [YyFf*] ) ;;
-  [Rr*] ) read -p "Flag: " flag;;
+  [YyFfRr*] ) ;;
+  [Ll*] ) read -p "Flag: " flag;;
   * ) echo "Browser: "; select browseropt in Chromium Edge Firefox IE "IE/Edge" Opera Safari "Safari iOS" "Chrome/Safari" "WebView" "all browsers"; do
     case $browseropt in
       "Chromium") browserid=chrome; browser="Chromium (Chrome, Opera, Samsung Internet, WebView Android)"; break;;
@@ -50,7 +50,7 @@ case $newbcd in
     esac;
   done;
   case $newbcd in
-    [RrEe*] ) ;;
+    [RrLlAa*] ) ;;
     * ) read -n 1 -p "Method? (mdn-bcd-collecto[R]/[m]anual/m[i]rror/[c]ommit/[b]ug/[o]ther) " method
       [[ ! -z $method ]] && echo ""
       case $method in 
@@ -68,7 +68,7 @@ case $newbcd in
   esac;;
 esac;
 case $newbcd in
-  [Rr*] ) doadd=n;
+  [Ll*] ) doadd=n;
     echo ""
     npm run lint $cat
     if [ $? -ne 0 ]; then
@@ -78,7 +78,7 @@ case $newbcd in
     fi;;
   * ) read -p "$category: " feature
     case $newbcd in
-      [FfYf*] ) ;;
+      [FfYy*] ) ;;
       * ) read -p "Member (if applicable): " member;;
     esac;
     read -n 1 -p "Auto-add files? ([Y]es/[n]o) " doadd
@@ -99,11 +99,16 @@ case $newbcd in
   else
     branch=$cat/${feature//\*/}/${member//./\/}/$browserid-corrections;
   fi;;
-  [Rr*] ) branch=$cat/$flag-flagremoval;;
-  [Ee*] ) if [ -z $member ]; then
+  [Ll*] ) branch=$cat/$flag-flagremoval;;
+  [Aa*] ) if [ -z $member ]; then
     branch=$cat/${feature//\*/}/$browserid-flagremoval;
   else
     branch=$cat/${feature//\*/}/${member//./\/}/$browserid-flagremoval;
+  fi;;
+  [Rr*] ) if [ -z $member ]; then
+    branch=$cat/${feature//\*/}/$browserid-removal;
+  else
+    branch=$cat/${feature//\*/}/${member//./\/}/$browserid-removal;
   fi;;
   * ) if [ -z $member ]; then
     branch=$cat/${feature//\*/}/$browserid;
@@ -182,8 +187,13 @@ case $method in
       else
         git commit -m "Update $browseropt versions for $title" -m "" -m "This PR updates and corrects the real values for $browser for the \`$member\` member of the \`$feature\` $category, based upon results from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Tests Used: $collectorurl" -q;
       fi;;
-    [Rr*] ) git commit -m "Remove irrelevant \"$flag\" flag" -m "" -m "This PR removes irrelevant flag data for \`$flag\` as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-flag-data)." -m "" -m "This PR was created from results of a [script](https://github.com/vinyldarkscratch/browser-compat-data/blob/scripts/remove-redundant-flags/scripts/remove-redundant-flags.js) designed to remove irrelevant flags." -q;;
-    [Ee*] ) if [ -z $member ]; then
+    [Aa*] ) if [ -z $member ]; then
+      git commit -m "Remove irrelevant $title" -m "" -m "This PR removes the irrelevant \`$feature\` $category as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-features)." -m "" -m "This PR was created from results of a [script](https://github.com/vinyldarkscratch/browser-compat-data/blob/scripts/remove-redundant-flags/scripts/remove-redundant-flags.js) designed to remove irrelevant flags." -q;
+    else
+      git commit -m "Remove irrelevant $title feature" -m "" -m "This PR removes the irrelevant \`$member\` member of the \`$feature\` $category as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-features).  The lack of current support has been confirmed by the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion), even if the current BCD suggests support." -q;
+    fi;;
+    [Ll*] ) git commit -m "Remove irrelevant \"$flag\" flag" -m "" -m "This PR removes irrelevant flag data for \`$flag\` as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-flag-data).  The lack of current support has been confirmed by the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion), even if the current BCD suggests support." -q;;
+    [Aa*] ) if [ -z $member ]; then
       git commit -m "Remove irrelevant $browseropt flag data for $title" -m "" -m "This PR removes irrelevant flag data for $browser for the \`$feature\` $category as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-flag-data)." -m "" -m "This PR was created from results of a [script](https://github.com/vinyldarkscratch/browser-compat-data/blob/scripts/remove-redundant-flags/scripts/remove-redundant-flags.js) designed to remove irrelevant flags." -q;
     else
       git commit -m "Remove irrelevant $browseropt flag data for $title" -m "" -m "This PR removes irrelevant flag data for $browser for the \`$member\` member of the \`$feature\` $category as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-flag-data)." -m "" -m "This PR was created from results of a [script](https://github.com/vinyldarkscratch/browser-compat-data/blob/scripts/remove-redundant-flags/scripts/remove-redundant-flags.js) designed to remove irrelevant flags." -q;
@@ -205,7 +215,10 @@ case $method in
 esac;
 case $customize in
   [Yy*] ) gh pr create;;
-  *) gh pr create --fill;;
+  *) case $method in
+    [Rr*] ) gh pr create --fill -l "needs-release-note :newspaper:" -l "needs content update 📝";;
+    * ) gh pr create --fill;;
+  esac;;
 esac;
 case $doadd in
   [NnCc*] ) git stash;;
