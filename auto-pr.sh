@@ -2,7 +2,7 @@
 
 collectorversion="3.2.2"
 echo ""
-read -n 1 -p "PR type? ([y]es/new [f]ile/[N]o/[c]orrections/feature [r]emoval/f[l][a]g removal (by flag/file)) " prtype
+read -n 1 -p "PR type? ([n]ew entry/new [f]ile/real [V]alues/[c]orrections/feature [r]emoval/f[l][a]g removal (by flag/file)) " prtype
 [[ ! -z $prtype ]] && echo ""
 read -n 1 -p "Category? ([A]pi/[c]ss/[h]tml/h[t]tp/[j]avascript/[s]vg/web[d]river/web[e]xtensions) " catopt
 [[ ! -z $catopt ]] && echo ""
@@ -31,7 +31,7 @@ case $catopt in
   * ) cat=api; category=API;;
 esac;
 case $prtype in
-  [YyFfRr*] ) ;;
+  [NnFfRr*] ) ;;
   [Ll*] ) read -p "Flag: " flag;;
   * ) echo "Browser: "; select browseropt in Chromium Edge Firefox IE "IE/Edge" Opera Safari "Safari iOS" "Chrome/Safari" "WebView" "all browsers"; do
     case $browseropt in
@@ -78,7 +78,7 @@ case $prtype in
     fi;;
   * ) read -p "$category: " feature
     case $prtype in
-      [FfYy*] ) ;;
+      [FfNn*] ) ;;
       * ) read -p "Member (if applicable): " member;;
     esac;
     read -n 1 -p "Auto-add files? ([Y]es/[n]o) " doadd
@@ -93,7 +93,7 @@ case $prtype in
 esac;
 case $prtype in
   [Ff*] ) branch=$cat/${feature//\*/};;
-  [Yy*] ) branch=$cat/${feature//\*/}/additions;;
+  [Nn*] ) branch=$cat/${feature//\*/}/additions;;
   [Cc*] ) if [ -z $member ]; then
     branch=$cat/${feature//\*/}/$browserid-corrections;
   else
@@ -175,7 +175,7 @@ case $method in
       git commit -m "Add $browseropt versions for $title" -m "" -m "This PR adds real values for $browser for the \`$member\` member of the \`$feature\` $category.  $reason" -q
     fi;;
   *) case $prtype in
-    [Yy*] ) 
+    [Nn*] ) 
       if [ -z $member ]; then
         git commit -m "Add missing features for $title" -m "" -m "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser.  This particular PR adds the missing features of the $feature $category, populating the results using data from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Tests Used: $collectorurl" -q
       else
