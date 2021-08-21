@@ -59,7 +59,7 @@ case $prtype in
         [Bb*] )
           case $browserid in
             chrome|opera|webview) read -p "Chromium Bug ID: " bugid; bug="https://crbug.com/${bugid}";;
-            firefox) read -p "Bugzilla Bug ID": bugid; bug="https://bugzil.la/${bugid}";;
+            firefox) read -p "Bugzilla Bug ID: " bugid; bug="https://bugzil.la/${bugid}";;
             safari|safariios|webkit) read -p "WebKit Bug ID": bugid; bug="https://webkit.org/b/${bugid}";;
             *) read -p "Bug Link: " bug;;
           esac;;
