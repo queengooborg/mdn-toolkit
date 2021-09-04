@@ -1,6 +1,6 @@
 #!/bin/bash
 
-collectorversion="3.2.9"
+collectorversion="3.2.12"
 echo ""
 read -n 1 -p "PR type? ([n]ew entry/new [f]ile/real [V]alues/[c]orrections/feature [r]emoval/f[l][a]g removal (by flag/file)) " prtype
 [[ ! -z $prtype ]] && echo ""
