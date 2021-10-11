@@ -35,10 +35,10 @@ function main() {
           // If browser support isn't defined, consider non-real
           return null;
         }
-        for (const range in Array.isArray(ranges) ? ranges : [ranges]) {
+        for (const range of Array.isArray(ranges) ? ranges : [ranges]) {
           if (
             [true, null, undefined].includes(range.version_added) ||
-            [true, null].includes(range.version_removed)
+            range.version_removed === true
           ) {
             return false;
           }
