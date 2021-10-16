@@ -2,7 +2,7 @@
 
 collectorversion="4.0.0"
 echo ""
-read -n 1 -p "PR type? ([n]ew entry/new [f]ile/real [V]alues/[c]orrections/feature [r]emoval/f[l][a]g removal (by flag/file)) " prtype
+read -n 1 -p "PR type? ([n]ew entry/new [f]ile/real [V]alues/[c]orrections/feature [r]emoval/f[l][a]g removal (by flag/feature)) " prtype
 [[ ! -z $prtype ]] && echo ""
 read -n 1 -p "Category? ([A]pi/[c]ss/[h]tml/h[t]tp/[j]avascript/[s]vg/web[d]river/web[e]xtensions) " catopt
 [[ ! -z $catopt ]] && echo ""
