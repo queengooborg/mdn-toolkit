@@ -54,9 +54,14 @@ categories = {
 
 features = {}
 for browser in browsers:
-	result = subprocess.run(['node', 'scripts/traverse.js', browser.replace(' ', '').lower(), folder], cwd=bcd_path, stdout=subprocess.PIPE).stdout.decode('utf-8').split('\n')[0:-2]
+	result = subprocess.run(['node', 'scripts/traverse.js', browser.replace(' ', '').lower(), folder], cwd=bcd_path, stdout=subprocess.PIPE).stdout.decode('utf-8').split('\n')[0:-1]
 
-	for f in result:
+	count = int(result[-1])
+
+	if count < 1:
+		continue
+
+	for f in result[0:-1]:
 		feature = f.split(" (")[0]
 		feature_parts = feature.split('.')
 		category = "zzzzz Misc."
