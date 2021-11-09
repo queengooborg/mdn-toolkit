@@ -81,7 +81,7 @@ case $prtype in
     fi;;
   * ) read -p "$category: " feature
     case $prtype in
-      [FfNn*] ) ;;
+      [Ff*] ) ;;
       * ) read -p "Member (if applicable): " member;;
     esac;
     read -n 1 -p "Auto-add files? ([Y]es/[n]o) " doadd
