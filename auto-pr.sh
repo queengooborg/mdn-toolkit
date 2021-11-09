@@ -96,7 +96,11 @@ case $prtype in
 esac;
 case $prtype in
   [Ff*] ) branch=$cat/${feature//\*/};;
-  [Nn*] ) branch=$cat/${feature//\*/}/additions;;
+  [Nn*] ) if [ -z $member ]; then
+    branch=$cat/${feature//\*/}/additions;
+  else
+    branch=$cat/${feature//\*/}/${member//./\/}/additions;
+  fi;;
   [Cc*] ) if [ -z $member ]; then
     branch=$cat/${feature//\*/}/$browserid-corrections;
   else
