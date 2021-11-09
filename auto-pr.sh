@@ -2,7 +2,7 @@
 
 collectorversion="4.0.0"
 echo ""
-read -n 1 -p "PR type? ([n]ew entry/new [f]ile/real [V]alues/[c]orrections/feature [a]ddition/feature [r]emoval/f[l]a[g] removal (by flag/feature)) " prtype
+read -n 1 -p "PR type? ([n]ew entry/new [f]ile/real [V]alues/[c]orrections/feature [r]emoval/f[l]a[g] removal (by flag/feature)) " prtype
 [[ ! -z $prtype ]] && echo ""
 read -n 1 -p "Category? ([A]pi/[c]ss/[h]tml/h[t]tp/[j]avascript/[s]vg/web[d]river/web[e]xtensions) " catopt
 [[ ! -z $catopt ]] && echo ""
@@ -31,7 +31,7 @@ case $catopt in
   * ) cat=api; category=API;;
 esac;
 case $prtype in
-  [NnFfAa*] ) ;;
+  [NnFf*] ) ;;
   [Rr*] )
     read -n 1 -p "Removal reason: ([I]rrelevant/[n]on-interface) " removalreason;
     [[ ! -z $removalreason ]] && echo "";;
@@ -53,7 +53,7 @@ case $prtype in
     esac;
   done;
   case $prtype in
-    [RrLlAaGg*] ) ;;
+    [RrLlGg*] ) ;;
     * ) read -n 1 -p "Method? (mdn-bcd-collecto[R]/[m]anual/m[i]rror/[c]ommit/[b]ug/[o]ther) " method
       [[ ! -z $method ]] && echo ""
       case $method in 
@@ -107,11 +107,6 @@ case $prtype in
     branch=$cat/${feature//\*/}/$browserid-flagremoval;
   else
     branch=$cat/${feature//\*/}/${member//./\/}/$browserid-flagremoval;
-  fi;;
-  [Aa*] ) if [ -z $member ]; then
-    branch=$cat/${feature//\*/}/addition;
-  else
-    branch=$cat/${feature//\*/}/${member//./\/}/addition;
   fi;;
   [Rr*] ) if [ -z $member ]; then
     branch=$cat/${feature//\*/}/removal;
@@ -195,11 +190,6 @@ case $method in
       else
         git commit -m "Update $browseropt versions for $title" -m "" -m "This PR updates and corrects the real values for $browser for the \`$member\` member of the \`$feature\` $category, based upon results from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Tests Used: $collectorurl" -m "" -m "_Check out the [collector's guide on how to review this PR](https://github.com/foolip/mdn-bcd-collector#reviewing-bcd-changes)._" -q;
       fi;;
-    [Aa*] ) if [ -z $member ]; then
-      git commit -m "Add $title to BCD" -m "" -m "This PR adds the missing \`$feature\` $category to BCD.  The data was collected using the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Tests Used: $collectorurl" -m "" -m "_Check out the [collector's guide on how to review this PR](https://github.com/foolip/mdn-bcd-collector#reviewing-bcd-changes)._" -q;
-    else
-      git commit -m "Add $title to BCD" -m "" -m "This PR adds the missing \`$member\` member of the \`$feature\` $category to BCD.  The data was collected using the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion)." -m "" -m "Tests Used: $collectorurl" -m "" -m "_Check out the [collector's guide on how to review this PR](https://github.com/foolip/mdn-bcd-collector#reviewing-bcd-changes)._" -q;
-    fi;;
     [Rr*] ) case $removalreason in
       [Nn*] ) if [ -z $member ]; then
         git commit -m "Remove $title from BCD" -m "" -m "This PR removes \`$feature\` from BCD.  This feature is a dictionary, enum, or WebIDL typedef and should not be included in BCD." -q
