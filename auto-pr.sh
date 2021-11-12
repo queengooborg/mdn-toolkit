@@ -38,7 +38,9 @@ case $prtype in
     case $removalreason in
       [Oo*] ) read -p "Reason: " reason;;
       *) ;;
-    esac;;
+    esac;
+    read -n 1 -p "Does this need an MDN content update? ([Y]es/[n]o) " needscontentupdate;
+    [[ ! -z $needscontentupdate ]] && echo "";;
   [Ll*] ) read -p "Flag: " flag;;
   * ) echo "Browser: "; select browseropt in Chromium Edge Firefox IE "IE/Edge" Opera Safari "Safari iOS" "Chrome/Safari" "WebView" "all browsers"; do
     case $browseropt in
@@ -237,7 +239,10 @@ case $method in
   esac;
 esac;
 case $prtype in
-  [Rr*] ) gh pr create --fill -l "needs-release-note :newspaper:" -l "needs content update 📝";;
+  [Rr*] ) case $needscontentupdate in
+    [Nn*] ) gh pr create --fill -l "needs-release-note :newspaper:";;
+    * ) gh pr create --fill -l "needs-release-note :newspaper:" -l "needs content update 📝";;
+  esac;;
   * ) gh pr create --fill;;
 esac;
 case $doadd in
