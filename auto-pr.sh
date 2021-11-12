@@ -33,8 +33,12 @@ esac;
 case $prtype in
   [NnFf*] ) ;;
   [Rr*] )
-    read -n 1 -p "Removal reason: ([I]rrelevant/[n]on-interface) " removalreason;
-    [[ ! -z $removalreason ]] && echo "";;
+    read -n 1 -p "Removal reason: ([I]rrelevant/[n]on-interface/[o]ther) " removalreason;
+    [[ ! -z $removalreason ]] && echo "";
+    case $removalreason in
+      [Oo*] ) read -p "Reason: " reason;;
+      *) ;;
+    esac;;
   [Ll*] ) read -p "Flag: " flag;;
   * ) echo "Browser: "; select browseropt in Chromium Edge Firefox IE "IE/Edge" Opera Safari "Safari iOS" "Chrome/Safari" "WebView" "all browsers"; do
     case $browseropt in
@@ -199,6 +203,11 @@ case $method in
         git commit -m "Remove $title from BCD" -m "" -m "This PR removes \`$feature\` from BCD.  This feature is a dictionary, enum, or WebIDL typedef and should not be included in BCD." -q
       else
         git commit -m "Remove $title from BCD" -m "" -m "This PR removes the \`$member\` member of the \`$feature\` $category from BCD.  This feature is a dictionary, enum, or WebIDL typedef and should not be included in BCD." -q
+      fi;;
+      [Oo*] ) if [ -z $member ]; then
+        git commit -m "Remove $title from BCD" -m "" -m "This PR removes \`$feature\` from BCD.  $reason" -q
+      else
+        git commit -m "Remove $title from BCD" -m "" -m "This PR removes the \`$member\` member of the \`$feature\` $category from BCD.  $reason" -q
       fi;;
       * ) if [ -z $member ]; then
         git commit -m "Remove $title from BCD" -m "" -m "This PR removes the irrelevant \`$feature\` $category as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-features). The lack of current support has been confirmed by the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion), even if the current BCD suggests support." -q;
