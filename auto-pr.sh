@@ -148,7 +148,7 @@ esac;
 if [ -z $member ]; then
   title="$feature $category"
 else
-  title="$cat.$feature.$member"
+  title="${cat//\//.}.$feature.$member"
 fi
 
 if [ -z $member ] || [ $member == "worker_support" ]; then
