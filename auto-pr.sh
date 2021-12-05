@@ -15,7 +15,13 @@ case $catopt in
       [Tt*] ) cat=css/types; category="CSS type";;
       * ) cat=css/properties; category="CSS property";;
     esac;;
-  [Hh*] ) cat=html; category="HTML element";;
+  [Hh*] ) read -n 1 -p "Sub-category? ([E]lements/[m]anifest/[o]ther) " subcat;
+    echo "";
+    case $subcat in
+      [Mm*] ) cat=html/manifest; category="HTML manifest";;
+      [Oo*] ) cat=html; category="HTML feature";;
+      * ) cat=html/elements; category="HTML element";;
+    esac;;
   [Tt*] ) cat=http/headers; category="HTTP feature";;
   [Jj*] ) read -n 1 -p "Sub-category? ([B]uiltins/[o]perators/o[t]her) " subcat;
     echo "";
@@ -24,8 +30,12 @@ case $catopt in
       [Tt*] ) cat=javascript; category="JavaScript feature";;
       * ) cat=javascript/builtins; category="JavaScript builtin";;
     esac;;
-  [Jj*] ) cat=javascript; category="JavaScript feature";;
-  [Ss*] ) cat=svg; category="SVG element";;
+  [Ss*] ) read -n 1 -p "Sub-category? ([a]ttributes/[E]lements) " subcat;
+    echo "";
+    case $subcat in
+      [Aa*] ) cat=svg/attributes; category="SVG attributes";;
+      * ) cat=svg/elements; category="SVG element";;
+    esac;;
   [Dd*] ) cat=webdriver; category="Webdriver feature";;
   [Ee*] ) cat=webextensions; category="Webextensions feature";;
   * ) cat=api; category=API;;
