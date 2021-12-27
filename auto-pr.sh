@@ -52,7 +52,7 @@ case $prtype in
     read -n 1 -p "Does this need an MDN content update? ([Y]es/[n]o) " needscontentupdate;
     [[ ! -z $needscontentupdate ]] && echo "";;
   [Ll*] ) read -p "Flag: " flag;;
-  * ) echo "Browser: "; select browseropt in Chromium Edge Firefox IE "IE/Edge" Opera Safari "Safari iOS" "Chrome/Safari" "WebView" "all browsers"; do
+  * ) echo "Browser: "; select browseropt in Chromium Edge Firefox IE "IE/Edge" Opera Safari "Safari iOS" "Chrome/Safari" WebView "Firefox Android" "all browsers"; do
     case $browseropt in
       "Chromium") browserid=chrome; browser="Chromium (Chrome, Opera, Samsung Internet, WebView Android)"; break;;
       "Edge") browserid=edge; browser="Microsoft Edge"; break;;
@@ -65,6 +65,7 @@ case $prtype in
       "Chrome/Safari") browserid=webkit; browser="Chrome and Safari"; break;;
       "WebView") browserid=webview; browser="WebView Android"; break;;
       "NodeJS") browserid=nodejs; browser="NodeJS"; break;;
+      "Firefox Android") browserid=fenix; browser="Firefox Android"; break;;
       "all browsers") browserid="all"; browser="all browsers"; break;;
     esac;
   done;
