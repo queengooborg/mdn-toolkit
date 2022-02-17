@@ -2,7 +2,7 @@
 
 collectorversion="5.0.0"
 echo ""
-read -n 1 -p "PR type? ([n]ew entry/new [f]ile/real [V]alues/[c]orrections/feature [r]emoval/f[l][a]g removal (by flag/feature)) " prtype
+read -n 1 -p "PR type? ([n]ew entry/new [f]ile/real [V]alues/[c]orrections/feature [r]emoval/f[l][a]g removal (by flag/feature)/[e]vent adaptation) " prtype
 [[ ! -z $prtype ]] && echo ""
 read -n 1 -p "Category? ([A]pi/[c]ss/[h]tml/h[t]tp/[j]avascript/[s]vg/web[d]river/web[e]xtensions) " catopt
 [[ ! -z $catopt ]] && echo ""
@@ -41,7 +41,7 @@ case $catopt in
   * ) cat=api; category=API;;
 esac;
 case $prtype in
-  [NnFf*] ) ;;
+  [NnFfEe*] ) ;;
   [Rr*] )
     read -n 1 -p "Removal reason: ([I]rrelevant/[n]on-interface/[o]ther) " removalreason;
     [[ ! -z $removalreason ]] && echo "";
@@ -70,7 +70,7 @@ case $prtype in
     esac;
   done;
   case $prtype in
-    [RrLlAa*] ) ;;
+    [RrLlAaEe*] ) ;;
     * ) read -n 1 -p "Method? (mdn-bcd-collecto[R]/[m]anual/m[i]rror/[c]ommit/[b]ug/[o]ther) " method
       [[ ! -z $method ]] && echo ""
       case $method in 
@@ -133,6 +133,11 @@ case $prtype in
     branch=$cat/${feature//\*/}/removal;
   else
     branch=$cat/${feature//\*/}/${member//./\/}/removal;
+  fi;;
+  [Ee*] ) if [ -z $member ]; then
+    branch=$cat/${feature//\*/}/events;
+  else
+    branch=$cat/${feature//\*/}/${member//./\/}/events;
   fi;;
   * ) if [ -z $member ]; then
     branch=$cat/${feature//\*/}/$browserid;
@@ -234,6 +239,11 @@ case $method in
     else
       git commit -m "Remove irrelevant $browseropt flag data for $title" -m "" -m "This PR removes irrelevant flag data for $browser for the \`$member\` member of the \`$feature\` $category as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-flag-data)." -m "" -m "This PR was created from results of a [script](https://github.com/queengooborg/browser-compat-data/blob/scripts/remove-redundant-flags/scripts/remove-redundant-flags.js) designed to remove irrelevant flags." -q;
     fi;;
+    [Ee*] ) if [ -z $member ]; then
+      git commit -m "Adapt $title to new events structure" -m "" -m "This PR adapts the $feature $category to conform to the new events structure.  Part of work for #14578." -q;
+    else
+      git commit -m "Adapt $title to new events structure" -m "" -m "This PR adapts the $member event of the $feature $category to conform to the new events structure.  Part of work for #14578." -q;
+    fi;;
     * ) if [ -z $member ]; then
       case $browseropt in
         "WebView") git commit -m "Add $browseropt versions for $title" -m "" -m "This PR adds real values for $browser for the \`$feature\` $category, based upon results from the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion).  The collector obtains results based upon the latest WebView version (to determine if it is supported), then version numbers are copied from Chrome Android." -m "" -m "Tests Used: $collectorurl" -m "" -m "_Check out the [collector's guide on how to review this PR](https://github.com/foolip/mdn-bcd-collector#reviewing-bcd-changes)._" -q;;
@@ -254,6 +264,7 @@ case $prtype in
     [Nn*] ) gh pr create --fill -l "needs-release-note :newspaper:";;
     * ) gh pr create --fill -l "needs-release-note :newspaper:" -l "needs content update 📝";;
   esac;;
+  [Ee*] ) gh pr create --fill -l "needs content update 📝";;
   * ) gh pr create --fill;;
 esac;
 case $doadd in
