@@ -4,41 +4,45 @@ collectorversion="5.0.0"
 echo ""
 read -n 1 -p "PR type? ([n]ew entry/new [f]ile/real [V]alues/[c]orrections/feature [r]emoval/f[l][a]g removal (by flag/feature)/[e]vent adaptation) " prtype
 [[ ! -z $prtype ]] && echo ""
-read -n 1 -p "Category? ([A]pi/[c]ss/[h]tml/h[t]tp/[j]avascript/[s]vg/web[d]river/web[e]xtensions) " catopt
-[[ ! -z $catopt ]] && echo ""
-case $catopt in
-  [Cc*] ) read -n 1 -p "Sub-category? ([a]t-rules/[P]roperties/[s]electors/[t]ypes) " subcat;
-    echo "";
-    case $subcat in
-      [Aa*] ) cat=css/at-rules; category="CSS @rule";;
-      [Ss*] ) cat=css/selectors; category="CSS selector";;
-      [Tt*] ) cat=css/types; category="CSS type";;
-      * ) cat=css/properties; category="CSS property";;
+case $prtype in 
+  [Ee*] ) cat=api; category=API;;
+  * )
+    read -n 1 -p "Category? ([A]pi/[c]ss/[h]tml/h[t]tp/[j]avascript/[s]vg/web[d]river/web[e]xtensions) " catopt
+    [[ ! -z $catopt ]] && echo ""
+    case $catopt in
+      [Cc*] ) read -n 1 -p "Sub-category? ([a]t-rules/[P]roperties/[s]electors/[t]ypes) " subcat;
+        echo "";
+        case $subcat in
+          [Aa*] ) cat=css/at-rules; category="CSS @rule";;
+          [Ss*] ) cat=css/selectors; category="CSS selector";;
+          [Tt*] ) cat=css/types; category="CSS type";;
+          * ) cat=css/properties; category="CSS property";;
+        esac;;
+      [Hh*] ) read -n 1 -p "Sub-category? ([E]lements/[m]anifest/[o]ther) " subcat;
+        echo "";
+        case $subcat in
+          [Mm*] ) cat=html/manifest; category="HTML manifest";;
+          [Oo*] ) cat=html; category="HTML feature";;
+          * ) cat=html/elements; category="HTML element";;
+        esac;;
+      [Tt*] ) cat=http/headers; category="HTTP feature";;
+      [Jj*] ) read -n 1 -p "Sub-category? ([B]uiltins/[o]perators/o[t]her) " subcat;
+        echo "";
+        case $subcat in
+          [Oo*] ) cat=javascript/operators; category="JavaScript operator";;
+          [Tt*] ) cat=javascript; category="JavaScript feature";;
+          * ) cat=javascript/builtins; category="JavaScript builtin";;
+        esac;;
+      [Ss*] ) read -n 1 -p "Sub-category? ([a]ttributes/[E]lements) " subcat;
+        echo "";
+        case $subcat in
+          [Aa*] ) cat=svg/attributes; category="SVG attributes";;
+          * ) cat=svg/elements; category="SVG element";;
+        esac;;
+      [Dd*] ) cat=webdriver; category="Webdriver feature";;
+      [Ee*] ) cat=webextensions; category="Webextensions feature";;
+      * ) cat=api; category=API;;
     esac;;
-  [Hh*] ) read -n 1 -p "Sub-category? ([E]lements/[m]anifest/[o]ther) " subcat;
-    echo "";
-    case $subcat in
-      [Mm*] ) cat=html/manifest; category="HTML manifest";;
-      [Oo*] ) cat=html; category="HTML feature";;
-      * ) cat=html/elements; category="HTML element";;
-    esac;;
-  [Tt*] ) cat=http/headers; category="HTTP feature";;
-  [Jj*] ) read -n 1 -p "Sub-category? ([B]uiltins/[o]perators/o[t]her) " subcat;
-    echo "";
-    case $subcat in
-      [Oo*] ) cat=javascript/operators; category="JavaScript operator";;
-      [Tt*] ) cat=javascript; category="JavaScript feature";;
-      * ) cat=javascript/builtins; category="JavaScript builtin";;
-    esac;;
-  [Ss*] ) read -n 1 -p "Sub-category? ([a]ttributes/[E]lements) " subcat;
-    echo "";
-    case $subcat in
-      [Aa*] ) cat=svg/attributes; category="SVG attributes";;
-      * ) cat=svg/elements; category="SVG element";;
-    esac;;
-  [Dd*] ) cat=webdriver; category="Webdriver feature";;
-  [Ee*] ) cat=webextensions; category="Webextensions feature";;
-  * ) cat=api; category=API;;
 esac;
 case $prtype in
   [NnFfEe*] ) ;;
