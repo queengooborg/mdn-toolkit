@@ -240,9 +240,9 @@ case $method in
       git commit -m "Remove irrelevant $browseropt flag data for $title" -m "" -m "This PR removes irrelevant flag data for $browser for the \`$member\` member of the \`$feature\` $category as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-flag-data)." -m "" -m "This PR was created from results of a [script](https://github.com/queengooborg/browser-compat-data/blob/scripts/remove-redundant-flags/scripts/remove-redundant-flags.js) designed to remove irrelevant flags." -q;
     fi;;
     [Ee*] ) if [ -z $member ]; then
-      git commit -m "Adapt $title to new events structure" -m "" -m "This PR adapts the $feature $category to conform to the new events structure.  Part of work for #14578." -q;
+      git commit -m "Adapt $title to new events structure" -m "" -m "This PR adapts the $feature $category to conform to the new events structure." -q;
     else
-      git commit -m "Adapt $title to new events structure" -m "" -m "This PR adapts the $member event of the $feature $category to conform to the new events structure.  Part of work for #14578." -q;
+      git commit -m "Adapt $title to new events structure" -m "" -m "This PR adapts the $member event of the $feature $category to conform to the new events structure." -q;
     fi;;
     * ) if [ -z $member ]; then
       case $browseropt in
