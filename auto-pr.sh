@@ -103,6 +103,7 @@ case $prtype in
   * ) read -p "$category: " feature
     case $prtype in
       [Ff*] ) ;;
+      [Ee*] ) read -p "Event name (if applicable): " member;;
       * ) read -p "Member (if applicable): " member;;
     esac;
     read -n 1 -p "Auto-add files? ([Y]es/[n]o) " doadd
