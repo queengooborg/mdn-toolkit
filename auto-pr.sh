@@ -159,7 +159,10 @@ esac;
 if [ -z $member ]; then
   title="$feature $category"
 else
-  title="${cat//\//.}.$feature.$member"
+  case $prtype in 
+    [Ee*] ) title="${cat//\//.}.$feature.on$member";;
+    * ) title="${cat//\//.}.$feature.$member";;
+  esac
 fi
 
 if [ -z $member ] || [ $member == "worker_support" ]; then
