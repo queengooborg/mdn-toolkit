@@ -94,6 +94,7 @@ esac;
 case $prtype in
   [Ll*] ) doadd=n;
     echo ""
+    npm run fix $cat
     npm run lint $cat
     if [ $? -ne 0 ]; then
       echo ""
@@ -109,6 +110,7 @@ case $prtype in
     read -n 1 -p "Auto-add files? ([Y]es/[n]o) " doadd
     [[ ! -z $doadd ]] && echo ""
     echo ""
+    npm run fix $cat/$feature.json
     npm run lint $cat/$feature.json
     if [ $? -ne 0 ]; then
       echo ""
