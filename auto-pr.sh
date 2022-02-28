@@ -96,15 +96,7 @@ esac;
 
 # Get feature and lint file
 case $prtype in
-  [Ll*] ) doadd=n;
-    echo ""
-    npm run fix $cat
-    npm run lint $cat
-    if [ $? -ne 0 ]; then
-      echo ""
-      read -n 1 -s -r -p "Resolve linter issues, then press any key to continue"
-      echo ""
-    fi;;
+  [Ll*] ) doadd=n; linttarget=$cat;;
   * ) read -p "$category: " feature
     case $prtype in
       [Ff*] ) ;;
@@ -113,14 +105,7 @@ case $prtype in
     esac;
     read -n 1 -p "Auto-add files? ([Y]es/[n]o) " doadd
     [[ ! -z $doadd ]] && echo ""
-    echo ""
-    npm run fix $cat/$feature.json
-    npm run lint $cat/$feature.json
-    if [ $? -ne 0 ]; then
-      echo ""
-      read -n 1 -s -r -p "Resolve linter issues, then press any key to continue"
-      echo ""
-    fi;;
+    linttarget=$cat/$feature.json;;
 esac;
 
 # Check if the PR should get a content update too
@@ -129,6 +114,16 @@ case $prtype in
     [[ ! -z $needscontentupdate ]] && echo "";;
   * ) ;;
 esac;
+
+# Lint file
+echo ""
+npm run fix $linttarget
+npm run lint $linttarget
+if [ $? -ne 0 ]; then
+  echo ""
+  read -n 1 -s -r -p "Resolve linter issues, then press any key to continue"
+  echo ""
+fi
 
 # Get branch name
 case $prtype in
@@ -301,7 +296,7 @@ esac;
 # Submit PR to GitHub
 case $prtype in
   [RrEe*] ) case $needscontentupdate in
-    [Nn*] ) ;;
+    [Nn*] ) gh pr create --fill;;
     * ) gh pr create --fill -l "needs content update 📝";;
   esac;;
   * ) gh pr create --fill;;
