@@ -7,7 +7,7 @@ echo ""
 read -n 1 -p "PR type? ([n]ew entry/new [f]ile/real [V]alues/[c]orrections/feature [r]emoval/f[l][a]g removal (by flag/feature)/[e]vent adaptation) " prtype
 [[ ! -z $prtype ]] && echo ""
 case $prtype in 
-  [Ee*] ) cat=api; category=API;;
+  [Ee*] ) cat=api; category=API; catlabel="data:api :rabbit2:";;
   * )
     read -n 1 -p "Category? ([A]pi/[c]ss/[h]tml/h[t]tp/[j]avascript/[m]athml/[s]vg/web[d]river/web[e]xtensions) " catopt
     [[ ! -z $catopt ]] && echo ""
