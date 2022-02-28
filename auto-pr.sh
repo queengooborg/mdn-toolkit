@@ -9,7 +9,7 @@ read -n 1 -p "PR type? ([n]ew entry/new [f]ile/real [V]alues/[c]orrections/featu
 case $prtype in 
   [Ee*] ) cat=api; category=API;;
   * )
-    read -n 1 -p "Category? ([A]pi/[c]ss/[h]tml/h[t]tp/[j]avascript/[s]vg/web[d]river/web[e]xtensions) " catopt
+    read -n 1 -p "Category? ([A]pi/[c]ss/[h]tml/h[t]tp/[j]avascript/[m]athml/[s]vg/web[d]river/web[e]xtensions) " catopt
     [[ ! -z $catopt ]] && echo ""
     case $catopt in
       [Cc*] )
@@ -44,6 +44,10 @@ case $prtype in
           [Tt*] ) cat=javascript; category="JavaScript feature";;
           * ) cat=javascript/builtins; category="JavaScript builtin";;
         esac;;
+      [Mm*] )
+        cat=mathml/elements
+        category="MathML element"
+        catlabel="data:mathml :heavy_division_sign:";;
       [Ss*] )
         catlabel="data:svg :paintbrush:";
         read -n 1 -p "Sub-category? ([a]ttributes/[E]lements) " subcat;
