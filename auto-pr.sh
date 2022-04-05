@@ -81,7 +81,6 @@ case $prtype in
       [Oo*] ) read -p "Reason: " reason;;
       *) ;;
     esac;;
-  [Ll*] ) read -p "Flag: " flag;;
   * ) echo "Browser: "; select browseropt in Chromium Edge Firefox IE "IE/Edge" Opera Safari "Safari iOS" "Chrome/Safari" WebView "Firefox Android" "all browsers"; do
     case $browseropt in
       "Chromium") browserid=chrome; browser="Chromium (Chrome, Opera, Samsung Internet, WebView Android)"; break;;
@@ -100,7 +99,8 @@ case $prtype in
     esac;
   done;
   case $prtype in
-    [RrLlAaEe*] ) ;;
+    [RrAaEe*] ) ;;
+    [Ll*] ) read -p "Flag: " flag;;
     * ) read -n 1 -p "Method? (mdn-bcd-collecto[R]/[m]anual/m[i]rror/[c]ommit/[b]ug/[o]ther) " method
       [[ ! -z $method ]] && echo ""
       case $method in 
@@ -281,7 +281,7 @@ case $method in
         git commit -m "Remove $title from BCD" -m "" -m "This PR removes the irrelevant \`$member\` member of the \`$feature\` $category as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-features). The lack of current support has been confirmed by the [mdn-bcd-collector](https://mdn-bcd-collector.appspot.com) project (v$collectorversion), even if the current BCD suggests support." -q;
       fi;;
     esac;;
-    [Ll*] ) git commit -m "Remove irrelevant \"$flag\" flag" -m "" -m "This PR removes irrelevant flag data for \`$flag\` as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-flag-data)." -m "" -m "This PR was created from results of a [script](https://github.com/queengooborg/browser-compat-data/blob/scripts/remove-redundant-flags/scripts/remove-redundant-flags.js) designed to remove irrelevant flags." -q;;
+    [Ll*] ) git commit -m "Remove irrelevant \"$flag\" flag in $browseropt" -m "" -m "This PR removes irrelevant flag data for the \`$flag\` flag of $browser as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-flag-data)." -m "" -m "This PR was created from results of a [script](https://github.com/queengooborg/browser-compat-data/blob/scripts/remove-redundant-flags/scripts/remove-redundant-flags.js) designed to remove irrelevant flags." -q;;
     [Aa*] ) if [ -z $member ]; then
       git commit -m "Remove irrelevant $browseropt flag data for $title" -m "" -m "This PR removes irrelevant flag data for $browser for the \`$feature\` $category as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-flag-data)." -m "" -m "This PR was created from results of a [script](https://github.com/queengooborg/browser-compat-data/blob/scripts/remove-redundant-flags/scripts/remove-redundant-flags.js) designed to remove irrelevant flags." -q;
     else
