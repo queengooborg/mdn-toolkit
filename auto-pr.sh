@@ -211,7 +211,12 @@ git branch $branch -q
 git checkout $branch -q
 case $doadd in
   [Nn*] ) ;;
-  * ) git add $cat/$feature.json;;
+  * ) 
+    if [ -z $feature ]; then
+      git add $cat
+    else
+      git add $cat/$feature.json
+    fi;;
 esac;
 
 # Perform commit
