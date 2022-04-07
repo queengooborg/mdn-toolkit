@@ -7,6 +7,7 @@ echo ""
 read -n 1 -p "PR type? ([n]ew entry/new [f]ile/real [V]alues/[c]orrections/feature [r]emoval/f[l][a]g removal (by flag/feature)/[e]vent adaptation) " prtype
 [[ ! -z $prtype ]] && echo ""
 case $prtype in 
+  [Ll*] ) cat=flags; category="Flag Removal";;
   [Ee*] ) cat=api; category=API; catlabel="data:api :rabbit2:";;
   * )
     read -n 1 -p "Category? ([A]pi/[c]ss/[h]tml/h[t]tp/[j]avascript/[m]athml/[s]vg/web[d]river/web[e]xtensions) " catopt
@@ -123,7 +124,7 @@ esac;
 
 # Get feature and lint file
 case $prtype in
-  [Ll*] ) doadd=n; linttarget=$cat;;
+  [Ll*] ) doadd=n; linttarget="";;
   * ) read -p "$category: " feature
     case $prtype in
       [Ff*] ) ;;
@@ -330,6 +331,7 @@ case $prtype in
     [Nn*] ) gh pr create --fill -l "$catlabel";;
     * ) gh pr create --fill -l "$catlabel" -l "needs content update 📝";;
   esac;;
+  [Ll*] ) gh pr create --fill;;
   * ) gh pr create --fill -l "$catlabel";;
 esac;
 
