@@ -33,7 +33,7 @@ case $prtype in
           * ) cat=html/elements; category="HTML element";;
         esac;;
       [Tt*] )
-        catlabel="data:http :mountain_cableway:";;
+        catlabel="data:http :mountain_cableway:";
         read -n 1 -p "Sub-category? ([H]eader/[o]ther) " subcat;
         echo "";
         case $subcat in
