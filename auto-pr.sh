@@ -33,9 +33,13 @@ case $prtype in
           * ) cat=html/elements; category="HTML element";;
         esac;;
       [Tt*] )
-        cat=http/headers
-        category="HTTP feature"
         catlabel="data:http :mountain_cableway:";;
+        read -n 1 -p "Sub-category? ([H]eader/[o]ther) " subcat;
+        echo "";
+        case $subcat in
+          [Oo*] ) cat=html; category="HTTP feature";;
+          * ) cat=http/headers; category="HTTP header";;
+        esac;;
       [Jj*] )
         catlabel="data:js :pager:"
         read -n 1 -p "Sub-category? ([B]uiltins/[o]perators/o[t]her) " subcat;
