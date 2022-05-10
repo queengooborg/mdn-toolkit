@@ -86,7 +86,7 @@ case $prtype in
       [Oo*] ) read -p "Reason: " reason;;
       *) ;;
     esac;;
-  * ) echo "Browser: "; select browseropt in Chromium Edge Firefox IE "IE/Edge" Opera Safari "Safari iOS" "Chrome/Safari" WebView "Firefox Android" "all browsers"; do
+  * ) echo "Browser: "; select browseropt in Chromium Edge Firefox IE "IE/Edge" Opera Safari "Safari iOS" "Chrome/Safari" WebView "Firefox Android" "Samsung Internet" "all browsers"; do
     case $browseropt in
       "Chromium") browserid=chrome; browser="Chromium (Chrome, Opera, Samsung Internet, WebView Android)"; break;;
       "Edge") browserid=edge; browser="Microsoft Edge"; break;;
@@ -100,6 +100,7 @@ case $prtype in
       "WebView") browserid=webview; browser="WebView Android"; break;;
       "NodeJS") browserid=nodejs; browser="NodeJS"; break;;
       "Firefox Android") browserid=fenix; browser="Firefox Android"; break;;
+      "Samsung Internet") browserid=samsung; browser="Samsung Internet"; break;;
       "all browsers") browserid="all"; browser="all browsers"; break;;
     esac;
   done;
