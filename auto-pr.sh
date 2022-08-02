@@ -110,7 +110,7 @@ case $prtype in
       read -n 1 -p "Uses script? ([Y]es/[n]o) " scriptused
       [[ ! -z $scriptused ]] && echo ""
       read -p "Flag: " flag;;
-    * ) read -n 1 -p "Method? (mdn-bcd-collecto[R]/[m]anual/m[i]rror/[c]ommit/[b]ug/[o]ther) " method
+    * ) read -n 1 -p "Method? (mdn-bcd-collecto[R]/[m]anual/[c]ommit/[b]ug/[o]ther) " method
       [[ ! -z $method ]] && echo ""
       case $method in 
         [Cc*] ) read -p "Commit: " commit;;
@@ -242,12 +242,6 @@ case $method in
       git commit -m "Add $browseropt versions for $title" -m "" -m "This PR adds real values for $browser for the \`$feature\` $category, based upon manual testing." -m "" -m "Test Code Used: $testcode" -q
     else
       git commit -m "Add $browseropt versions for $title" -m "" -m "This PR adds real values for $browser for the \`$member\` member of the \`$feature\` $category, based upon manual testing." -m "" -m "Test Code Used: $testcode" -q
-    fi;;
-  [Ii*])
-    if [ -z $member ]; then
-      git commit -m "Add $browseropt versions for $title" -m "" -m "This PR adds real values for $browser for the \`$feature\` $category by mirroring the data." -q
-    else
-      git commit -m "Add $browseropt versions for $title" -m "" -m "This PR adds real values for $browser for the \`$member\` member of the \`$feature\` $category by mirroring the data." -q
     fi;;
   [Bb*]) if [ -z $member ]; then
     git commit -m "Add $browseropt versions for $title" -m "" -m "This PR adds real values for $browser for the \`$feature\` $category, based upon information in a tracking bug." -m "" -m "Tracking Bug: $bug" -q
