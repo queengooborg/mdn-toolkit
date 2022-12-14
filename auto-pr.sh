@@ -42,11 +42,14 @@ case $prtype in
         esac;;
       [Jj*] )
         catlabel="data:js :pager:"
-        read -n 1 -p "Sub-category? ([B]uiltins/[o]perators/o[t]her) " subcat;
+        read -n 1 -p "Sub-category? ([B]uiltins/[i]ntl/[t]emporal/web[a]ssembly/[o]perators/othe[r]) " subcat;
         echo "";
         case $subcat in
           [Oo*] ) cat=javascript/operators; category="JavaScript operator";;
-          [Tt*] ) cat=javascript; category="JavaScript feature";;
+          [Ii*] ) cat=javascript/builtins/intl; category="JavaScript Intl builtin";;
+          [Tt*] ) cat=javascript/builtins/temporal; category="JavaScript Temporal builtin";;
+          [Aa*] ) cat=javascript/builtins/webassembly; category="JavaScript WebAssembly builtin";;
+          [Rr*] ) cat=javascript; category="JavaScript feature";;
           * ) cat=javascript/builtins; category="JavaScript builtin";;
         esac;;
       [Mm*] )
