@@ -271,9 +271,9 @@ case $method in
         git commit -m "Remove $title from BCD" -m "" -m "This PR removes the \`$member\` member of the \`$feature\` $category from BCD.  $reason" -q
       fi;;
       * ) if [ -z $member ]; then
-        git commit -m "Remove $title from BCD" -m "" -m "This PR removes the irrelevant \`$feature\` $category as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-features). The lack of current support has been confirmed by the [mdn-bcd-collector](https://mdn-bcd-collector.gooborg.com) project (v$collectorversion), even if the current BCD suggests support." -q;
+        git commit -m "Remove $title from BCD" -m "" -m "This PR removes the irrelevant \`$feature\` $category as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines/index.md#removal-of-irrelevant-features). The lack of current support has been confirmed by the [mdn-bcd-collector](https://mdn-bcd-collector.gooborg.com) project (v$collectorversion), even if the current BCD suggests support." -q;
       else
-        git commit -m "Remove $title from BCD" -m "" -m "This PR removes the irrelevant \`$member\` member of the \`$feature\` $category as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-features). The lack of current support has been confirmed by the [mdn-bcd-collector](https://mdn-bcd-collector.gooborg.com) project (v$collectorversion), even if the current BCD suggests support." -q;
+        git commit -m "Remove $title from BCD" -m "" -m "This PR removes the irrelevant \`$member\` member of the \`$feature\` $category as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines/index.md#removal-of-irrelevant-features). The lack of current support has been confirmed by the [mdn-bcd-collector](https://mdn-bcd-collector.gooborg.com) project (v$collectorversion), even if the current BCD suggests support." -q;
       fi;;
     esac;;
     [Ll*] ) 
