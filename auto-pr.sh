@@ -132,7 +132,7 @@ esac;
 
 # Get feature and lint file
 case $prtype in
-  [Ll*] ) doadd=n;;
+  [Ll*] ) doadd=n; linttarget="";;
   * ) read -p "$category: " feature
     case $prtype in
       [Ff*] ) ;;
@@ -140,7 +140,8 @@ case $prtype in
       * ) read -p "Member (if applicable): " member;;
     esac;
     read -n 1 -p "Auto-add files? ([Y]es/[n]o) " doadd
-    [[ ! -z $doadd ]] && echo "";;
+    [[ ! -z $doadd ]] && echo ""
+    linttarget=$cat/$feature.json;;
 esac;
 
 # Check if the PR should get a content update too
@@ -149,6 +150,16 @@ case $prtype in
     [[ ! -z $needscontentupdate ]] && echo "";;
   * ) ;;
 esac;
+
+# Lint file
+echo ""
+npm run fix $linttarget
+npm run lint $linttarget
+if [ $? -ne 0 ]; then
+  echo ""
+  read -n 1 -s -r -p "Resolve linter issues, then press any key to continue"
+  echo ""
+fi
 
 # Get branch name
 case $prtype in
