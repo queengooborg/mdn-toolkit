@@ -1,6 +1,6 @@
 #!/bin/bash
 
-collectorversion="8.0.1"
+collectorversion="8.1.1"
 
 # Get PR type and BCD category
 echo ""
