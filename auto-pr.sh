@@ -4,7 +4,7 @@ collectorversion="8.1.1"
 
 # Get PR type and BCD category
 echo ""
-read -n 1 -p "PR type? ([n]ew entry/new [f]ile/real [v]alues/[C]orrections/feature [r]emoval/f[l][a]g removal (by flag/feature)/[e]vent adaptation) " prtype
+read -n 1 -p "PR type? ([n]ew entry/new [f]ile/real [v]alues/[C]orrections/feature [r]emoval/f[l][a]g removal (by flag/feature)) " prtype
 [[ ! -z $prtype ]] && echo ""
 case $prtype in 
   [Ll*] ) cat=flags; category="Flag Removal";;
@@ -136,7 +136,6 @@ case $prtype in
   * ) read -p "$category: " feature
     case $prtype in
       [Ff*] ) ;;
-      [Ee*] ) read -p "Event name (if applicable): " member;;
       * ) read -p "Member (if applicable): " member;;
     esac;
     read -n 1 -p "Auto-add files? ([Y]es/[n]o) " doadd
@@ -184,11 +183,6 @@ case $prtype in
     branch=$cat/${feature//\*/}/removal;
   else
     branch=$cat/${feature//\*/}/${member//./\/}/removal;
-  fi;;
-  [Ee*] ) if [ -z $member ]; then
-    branch=$cat/${feature//\*/}/events;
-  else
-    branch=$cat/${feature//\*/}/${member//./\/}/events;
   fi;;
   * ) if [ -z $member ]; then
     branch=$cat/${feature//\*/}/$browserid;
@@ -297,20 +291,6 @@ case $method in
     else
       git commit -m "Remove irrelevant $browseropt flag data for $title" -m "" -m "This PR removes irrelevant flag data for $browser for the \`$member\` member of the \`$feature\` $category as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines.md#removal-of-irrelevant-flag-data)." -m "" -m "This PR was created from results of a [script](https://github.com/queengooborg/browser-compat-data/blob/scripts/remove-redundant-flags/scripts/remove-redundant-flags.js) designed to remove irrelevant flags." -q;
     fi;;
-    [Ee*] ) case $needscontentupdate in
-      [Nn*] )
-        if [ -z $member ]; then
-          git commit -m "Adapt $title to new events structure" -m "" -m "This PR adapts the $feature $category to conform to the new events structure." -m "" -m "Note: there are no MDN pages associated with this event, so there will be no corresponding content PR. Any broken MDN URLs in BCD have been removed." -q;
-        else
-          git commit -m "Adapt $title to new events structure" -m "" -m "This PR adapts the $member event of the $feature $category to conform to the new events structure." -m "" -m "Note: there are no MDN pages associated with these events, so there will be no corresponding content PR. Any broken MDN URLs in BCD have been removed." -q;
-        fi;;
-      * )
-        if [ -z $member ]; then
-          git commit -m "Adapt $title to new events structure" -m "" -m "This PR adapts the $feature $category to conform to the new events structure." -q;
-        else
-          git commit -m "Adapt $title to new events structure" -m "" -m "This PR adapts the $member event of the $feature $category to conform to the new events structure." -q;
-        fi;;
-    esac;;
     [Vv*] ) if [ -z $member ]; then
       case $browseropt in
         "WebView") git commit -m "Add $browseropt versions for $title" -m "" -m "This PR adds real values for $browser for the \`$feature\` $category, based upon results from the [mdn-bcd-collector](https://mdn-bcd-collector.gooborg.com) project (v$collectorversion).  The collector obtains results based upon the latest WebView version (to determine if it is supported), then version numbers are copied from Chrome Android." -m "" -m "Tests Used: $collectorurl" -m "" -m "_Check out the [collector's guide on how to review this PR](https://github.com/GooborgStudios/mdn-bcd-collector#reviewing-bcd-changes)._" -q;;
