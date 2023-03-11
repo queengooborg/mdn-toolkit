@@ -8,7 +8,6 @@ read -n 1 -p "PR type? ([n]ew entry/new [f]ile/real [v]alues/[C]orrections/featu
 [[ ! -z $prtype ]] && echo ""
 case $prtype in 
   [Ll*] ) cat=flags; category="Flag Removal";;
-  [Ee*] ) cat=api; category=API; catlabel="data:api :rabbit2:";;
   * )
     read -n 1 -p "Category? ([A]pi/[c]ss/[h]tml/h[t]tp/[j]avascript/[m]athml/[s]vg/web[d]river/web[e]xtensions) " catopt
     [[ ! -z $catopt ]] && echo ""
@@ -81,7 +80,7 @@ esac;
 
 # Get supporting details
 case $prtype in
-  [NnFfEe*] ) ;;
+  [NnFf*] ) ;;
   [Rr*] )
     read -n 1 -p "Removal reason: ([I]rrelevant/[n]on-interface/[o]ther) " removalreason;
     [[ ! -z $removalreason ]] && echo "";
@@ -106,7 +105,7 @@ case $prtype in
     esac;
   done;
   case $prtype in
-    [RrAaEe*] ) ;;
+    [RrAa*] ) ;;
     [Ll*] )
       read -n 1 -p "Uses script? ([Y]es/[n]o) " scriptused
       [[ ! -z $scriptused ]] && echo ""
@@ -143,7 +142,7 @@ esac;
 
 # Check if the PR should get a content update too
 case $prtype in
-  [EeRr*] ) read -n 1 -p "Does this need an MDN content update? ([Y]es/[n]o) " needscontentupdate;
+  [Rr*] ) read -n 1 -p "Does this need an MDN content update? ([Y]es/[n]o) " needscontentupdate;
     [[ ! -z $needscontentupdate ]] && echo "";;
   * ) ;;
 esac;
@@ -193,10 +192,7 @@ esac;
 if [ -z $member ]; then
   title="$feature $category"
 else
-  case $prtype in 
-    [Ee*] ) title="${cat//\//.}.$feature.on$member";;
-    * ) title="${cat//\//.}.$feature.$member";;
-  esac
+  title="${cat//\//.}.$feature.$member";;
 fi
 
 # Get collector URL
@@ -320,7 +316,7 @@ esac;
 
 # Submit PR to GitHub
 case $prtype in
-  [RrEe*] ) case $needscontentupdate in
+  [Rr*] ) case $needscontentupdate in
     [Nn*] ) gh pr create --fill -l "$catlabel";;
     * ) gh pr create --fill -l "$catlabel" -l "needs content update 📝";;
   esac;;
