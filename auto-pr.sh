@@ -37,7 +37,7 @@ case $prtype in
         read -n 1 -p "Sub-category? ([H]eader/[o]ther) " subcat;
         echo "";
         case $subcat in
-          [Oo*] ) cat=html; category="HTTP feature";;
+          [Oo*] ) cat=http; category="HTTP feature";;
           * ) cat=http/headers; category="HTTP header";;
         esac;;
       [Jj*] )
