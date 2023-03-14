@@ -34,7 +34,7 @@ collector_guide_link = "_Check out the [collector's guide on how to review this 
 pr_types = {
 	"Corrections": {
 		"title": "Update {browser} data for {title}",
-		"description": "This PR updates and corrects version values for {browser_long_name} for the {feature_description}.",
+		"description": "This PR updates and corrects version values for {browser_full} for the {feature_description}.",
 		"branch_suffix": "corrections"
 	},
 	"New Entry": {
@@ -47,7 +47,7 @@ pr_types = {
 	},
 	"Real Values Additions": {
 		"title": "Add {browser} versions for {title}",
-		"description": "This PR replaces `true`/`null` values with exact version numbers (or `false`) for {browser_long_name} for the {feature_description}.",
+		"description": "This PR replaces `true`/`null` values with exact version numbers (or `false`) for {browser_full} for the {feature_description}.",
 		"branch_suffix": "real-values"
 	},
 	"Feature Removal": {
@@ -62,11 +62,11 @@ pr_types = {
 	"Flag Removal": {
 		"by_flag": {
 			"title": "Remove irrelevant `{flag}` flag in {browser}",
-			"description": "This PR removes irrelevant flag data for the `{flag}` flag of {browser_long_name} as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines/index.md#removal-of-irrelevant-flag-data). This PR was created from results of the `remove-redundant-flags` script."
+			"description": "This PR removes irrelevant flag data for the `{flag}` flag of {browser_full} as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines/index.md#removal-of-irrelevant-flag-data). This PR was created from results of the `remove-redundant-flags` script."
 		},
 		"by_feature": {
 			"title": "Remove irrelevant {browser} flag data for {title}",
-			"description": "This PR removes irrelevant flag data for {browser_long_name} for the {feature_description} as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines/index.md#removal-of-irrelevant-flag-data). This PR was created from results of the `remove-redundant-flags` script."
+			"description": "This PR removes irrelevant flag data for {browser_full} for the {feature_description} as per the corresponding [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines/index.md#removal-of-irrelevant-flag-data). This PR was created from results of the `remove-redundant-flags` script."
 		},
 		"branch_suffix": "flag-removal"
 	},
@@ -200,12 +200,19 @@ def get_feature_title(feature, category):
 
 def get_branch_name(config):
 	if config['flag_removal_type'] == 'By Flag':
-		return f"flagremoval/${config['flag']}"
+		return f"flagremoval/{config['flag']}/{config['browser']['id']}"
 
+	branch_name = f"{config['feature'].replace('.', '/')}"
 	branch_suffix = pr_types[config['pr_type']].get('branch_suffix')
+	browser_id = config['browser']['id']
+
+	if browser_id:
+		if branch_suffix:
+			return f"{branch_name}/{browser_id}-{branch_suffix}"
+		return f"{branch_name}/{browser_id}"
 	if branch_suffix:
-		f"{config['feature'].replace('.', '/')}/{branch_suffix}"
-	return f"{config['feature'].replace('.', '/')}"
+		return f"{branch_name}/{branch_suffix}"
+	return branch_name
 
 def get_collector_test_url(feature):
 	base_url = "https://mdn-bcd-collector.gooborg.com/tests/"
@@ -290,8 +297,11 @@ def get_description(config):
 		source_data = data_sources.get(config['source']['type'], '')
 		description += " " + source_data['description'] + '\n\n' + source_data['source'].format(source=config['source']['data'])
 
-	title = title.format(**config)
-	description = description.format(**config)
+	fmt = dict(config)
+	del fmt['browser']
+
+	title = title.format(**fmt, browser=config['browser']['name'], browser_full=config['browser']['long_name'])
+	description = description.format(**fmt, browser=config['browser']['name'], browser_full=config['browser']['long_name'])
 
 	return title + '\n\n' + description
 
@@ -305,8 +315,11 @@ def get_config():
 		"labels": [],
 		"description": "",
 
-		"browser": "",
-		"browser_long_name": "",
+		"browser": {
+			"id": "",
+			"name": "",
+			"long_name": ""
+		},
 		"source": {
 			"type": "",
 			"data": ""
@@ -359,12 +372,10 @@ def get_config():
 		if config['content_update']:
 			config['labels'].append('needs content update 📝')
 	elif config['pr_type'] != 'Flag Removal':
-		browser_choice = inquirer.list_input(
+		config['browser'] = inquirer.list_input(
 			'What browser is updated in this PR?',
-			choices=[(v['name'], v) for _, v in browsers.items()]
+			choices=[(v['name'], {"id": k, **v}) for k, v in browsers.items()]
 		)
-		config['browser'] = browser_choice['name']
-		config['browser_long_name'] = browser_choice['long_name']
 
 		source = inquirer.list_input(
 			"Where does this data come from?",
