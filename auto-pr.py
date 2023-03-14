@@ -196,7 +196,7 @@ def get_feature_title(feature, category):
 	subfeature = _get_subfeature(feature, category)
 	if subfeature[1]:
 		return feature
-	return get_feature_description(feature, category)
+	return f"{subfeature[0]} {category['title']}".format(subfeature=subfeature, category=category)
 
 def get_branch_name(config):
 	if config['flag_removal_type'] == 'By Flag':
@@ -209,7 +209,7 @@ def get_branch_name(config):
 
 def get_collector_test_url(feature):
 	base_url = "https://mdn-bcd-collector.gooborg.com/tests/"
-	slug = feature.replace('.', ',')
+	slug = feature.replace('.', '/')
 	return base_url + slug.replace('/worker_support', '?exposure=Worker')
 
 def _find_feature_in_file(feature, file_path):
@@ -288,7 +288,7 @@ def get_description(config):
 
 	if config['source']['type']:
 		source_data = data_sources.get(config['source']['type'], '')
-		description += source_data['description'] + '\n\n' + source_data['source'].format(source=config['source']['data'])
+		description += " " + source_data['description'] + '\n\n' + source_data['source'].format(source=config['source']['data'])
 
 	title = title.format(**config)
 	description = description.format(**config)
@@ -471,7 +471,7 @@ def do_pr(config):
 			print("Force pushed!")
 			return
 
-	current_branch = subprocess.run(['git', 'branch', '--show-current'], capture_output=True).stdout.replace('\n', '')
+	current_branch = subprocess.run(['git', 'branch', '--show-current'], capture_output=True).stdout.decode("utf-8").replace('\n', '')
 
 	run_command("Creating branch...", ['git', 'branch', config['branch']])
 	run_command("Checking out branch...", ['git', 'checkout', config['branch']])
@@ -504,6 +504,7 @@ def main():
 	config = get_config()
 
 	do_lint(config)
+	print("")
 	do_pr(config)
 
 if __name__ == "__main__":
