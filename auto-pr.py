@@ -303,6 +303,9 @@ def get_description(config):
 	title = title.format(**fmt, browser=config['browser']['name'], browser_full=config['browser']['long_name'])
 	description = description.format(**fmt, browser=config['browser']['name'], browser_full=config['browser']['long_name'])
 
+	if config['additional_notes']:
+		description += "\n\nAdditional Notes: " + config['additional_notes']
+
 	return title + '\n\n' + description
 
 def get_config():
