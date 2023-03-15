@@ -286,7 +286,7 @@ def get_description(config):
 		file_untracked = config['file'] in untracked_files
 		description = pr_types['New Entry']['description']['entire_feature' if file_untracked else 'parts_of_feature']
 	elif config['pr_type'] == 'Feature Removal':
-		description += pr_types['Feature Removal']['reasons'].get(
+		description += " " + pr_types['Feature Removal']['reasons'].get(
 			config['feature_removal_reason'], config['feature_removal_reason']
 		)
 	elif config['pr_type'] == 'Flag Removal':
@@ -295,7 +295,9 @@ def get_description(config):
 
 	if config['source']['type']:
 		source_data = data_sources.get(config['source']['type'], '')
-		description += " " + source_data['description'] + '\n\n' + source_data['source'].format(source=config['source']['data'])
+		if config['pr_type'] != 'Feature Removal':
+			description += " " + source_data['description']
+		description += "\n\n" + source_data['source'].format(source=config['source']['data'])
 
 	fmt = dict(config)
 	del fmt['browser']
@@ -329,6 +331,7 @@ def get_config():
 		},
 		"content_update": False,
 		"additional_notes": "",
+		"auto_stage": False,
 
 		"flag_removal_type": "",
 		"flag": "",
@@ -367,7 +370,7 @@ def get_config():
 
 		config['feature_removal_reason'] = inquirer.list_input(
 			"Why is this feature being removed?",
-			choices=pr_types['Feature Removal']['reasons'].keys(),
+			choices=list(pr_types['Feature Removal']['reasons'].keys()),
 			other=True
 		)
 
@@ -417,6 +420,9 @@ def get_config():
 	return config
 
 def do_lint(config):
+	if not config['file']:
+		return
+
 	# Recursively run linting
 	do_lint = True
 	while do_lint:
@@ -509,8 +515,10 @@ def do_pr(config):
 	run_command("Deleting new branch...", ['git', 'branch', '-d', config['branch']])
 
 	if not config['auto_stage']:
-		run_command("Popping stash...", ['git', 'stash', 'pop'])
-		run_command("Resetting state...", ['git', 'reset'])
+		stashes = subprocess.run(['git', 'stash', 'list'], capture_output=True).stdout.decode('utf-8').rstrip().split('\n')
+		if stashes[0]: # If there's a stash, pop it
+			run_command("Popping stash...", ['git', 'stash', 'pop'])
+			run_command("Resetting state...", ['git', 'reset'])
 
 	print("Complete!")
 
