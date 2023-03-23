@@ -282,8 +282,8 @@ def get_description(config):
 		untracked_files = subprocess.run(
 			['git', 'ls-files', '--other', '--exclude-standard'],
 			capture_output=True
-		).stdout
-		file_untracked = config['file'] in untracked_files
+		).stdout.decode('utf-8')
+		file_untracked = str(config['file']) in untracked_files
 		description = pr_types['New Entry']['description']['entire_feature' if file_untracked else 'parts_of_feature']
 	elif config['pr_type'] == 'Feature Removal':
 		description += " " + pr_types['Feature Removal']['reasons'].get(
@@ -378,10 +378,11 @@ def get_config():
 		if config['content_update']:
 			config['labels'].append('needs content update 📝')
 	elif config['pr_type'] != 'Flag Removal':
-		config['browser'] = inquirer.list_input(
-			'What browser is updated in this PR?',
-			choices=[(v['name'], {"id": k, **v}) for k, v in browsers.items()]
-		)
+		if config['pr_type'] != 'New Entry':
+			config['browser'] = inquirer.list_input(
+				'What browser is updated in this PR?',
+				choices=[(v['name'], {"id": k, **v}) for k, v in browsers.items()]
+			)
 
 		source = inquirer.list_input(
 			"Where does this data come from?",
