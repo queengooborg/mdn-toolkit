@@ -294,10 +294,13 @@ def get_description(config):
 		description = pr_types['Flag Removal'][config['flag_removal_type']]['description']
 
 	if config['source']['type']:
-		source_data = data_sources.get(config['source']['type'], '')
-		if config['pr_type'] != 'Feature Removal':
-			description += " " + source_data['description']
-		description += "\n\n" + source_data['source'].format(source=config['source']['data'])
+		source_data = data_sources.get(config['source']['type'], None)
+		if source_data:
+			if config['pr_type'] != 'Feature Removal':
+				description += " " + source_data['description']
+			description += "\n\n" + source_data['source'].format(source=config['source']['data'])
+		else:
+			description += " " + config['source']['type']
 
 	fmt = dict(config)
 	del fmt['browser']
