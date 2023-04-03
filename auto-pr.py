@@ -28,7 +28,7 @@ with open(Path(__file__).parent / '../mdn-bcd-collector/package.json', 'r') as p
 	collector_version = json.load(package_file).get('version', '')
 
 mdn_bcd_collector = "[mdn-bcd-collector](https://mdn-bcd-collector.gooborg.com) project (v{0})".format(collector_version)
-collector_guide_link = "_Check out the [collector's guide on how to review this PR](https://github.com/GooborgStudios/mdn-bcd-collector#reviewing-bcd-changes)._"
+collector_guide_link = "_Check out the [collector's guide on how to review this PR](https://github.com/GooborgStudios/mdn-bcd-collector/blob/main/docs/reviewing-bcd-changes.md)._"
 
 # Titles and descriptions for each type of PR and their specific parameters
 pr_types = {
