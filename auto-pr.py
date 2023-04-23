@@ -202,7 +202,7 @@ def get_branch_name(config):
 	if config['flag_removal_type'] == 'By Flag':
 		return f"flagremoval/{config['flag']}/{config['browser']['id']}"
 
-	branch_name = f"{config['feature'].replace('.', '/')}"
+	branch_name = f"{config['feature'].replace('.', '/').replace('*', '')}"
 	branch_suffix = pr_types[config['pr_type']].get('branch_suffix')
 	browser_id = config['browser']['id']
 
