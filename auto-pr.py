@@ -368,14 +368,17 @@ def get_config():
 
 	# Get supporting information
 	if config['pr_type'] == 'Feature Removal':
-		config['source']['type'] = 'mdn-bcd-collector'
-		config['source']['data'] = get_collector_test_url(config['feature'])
-
 		config['feature_removal_reason'] = inquirer.list_input(
 			"Why is this feature being removed?",
 			choices=list(pr_types['Feature Removal']['reasons'].keys()),
 			other=True
 		)
+
+		# The source for confirming feature removal is always the collector
+		# Non-interface removal doesn't have a source; it is its own source
+		if config['feature_removal_reason'] != 'Non-Interface':
+			config['source']['type'] = 'mdn-bcd-collector'
+			config['source']['data'] = get_collector_test_url(config['feature'])
 
 		config['content_update'] = inquirer.confirm("Is an mdn/content update required?", default=True)
 		if config['content_update']:
