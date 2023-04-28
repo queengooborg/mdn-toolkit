@@ -231,7 +231,7 @@ def _find_feature_in_file(feature, file_path):
 
 	return True
 
-def find_file_by_feature(feature):
+def find_file_by_feature(feature, skip_file_search = False):
 	parts = feature.split('.')
 	cwd = Path('.')
 
@@ -240,6 +240,10 @@ def find_file_by_feature(feature):
 		json_path = cwd / (part+".json")
 
 		if os.path.exists(json_path):
+			# In some cases, we should just return the first possible match
+			if skip_file_search:
+				return json_path
+
 			# If the .json exists, check if the feature is present
 			found = _find_feature_in_file(feature, json_path)
 			if found:
@@ -362,7 +366,7 @@ def get_config():
 	else:
 		config['feature'] = inquirer.text("Feature Identifier", validate=non_empty)
 		config['category'] = get_category(config['feature'])
-		config['file'] = find_file_by_feature(config['feature'])
+		config['file'] = find_file_by_feature(config['feature'], config['pr_type'] == 'Feature Removal')
 		config['feature_description'] = get_feature_description(config['feature'], config['category'])
 		config['title'] = get_feature_title(config['feature'], config['category'])
 
