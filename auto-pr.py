@@ -434,6 +434,9 @@ def do_lint(config):
 	if not config['file']:
 		return
 
+	# Run the fix command first
+	fix_run = subprocess.run(["npm", "run", "fix", config["file"]])
+
 	# Recursively run linting
 	do_lint = True
 	while do_lint:
