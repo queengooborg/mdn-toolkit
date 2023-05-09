@@ -304,7 +304,7 @@ def get_description(config):
 				description += " " + source_data['description']
 			description += "\n\n" + source_data['source'].format(source=config['source']['data'])
 		else:
-			description += " " + config['source']['type']
+			description += " " + config['source']['data']
 
 	fmt = dict(config)
 	del fmt['browser']
