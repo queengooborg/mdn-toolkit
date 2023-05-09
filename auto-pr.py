@@ -80,7 +80,7 @@ data_sources = {
 	},
 	"Manual": {
 		"description": "The data comes from manual testing, running test code through BrowserStack, SauceLabs and custom VMs.",
-		"source": "Test Code: ```\n{source}\n```"
+		"source": "Test Code: \n```\n{source}\n```"
 	},
 	"Commit": {
 		"description": "The data comes from a commit in the browser's source code, mapped to a version number using available tooling or via the commit timestamp.",
