@@ -80,7 +80,7 @@ data_sources = {
 	},
 	"Manual": {
 		"description": "The data comes from manual testing, running test code through BrowserStack, SauceLabs and custom VMs.",
-		"source": "Test Code: \n```\n{source}\n```"
+		"source": "Test Code: {source}"
 	},
 	"Commit": {
 		"description": "The data comes from a commit in the browser's source code, mapped to a version number using available tooling or via the commit timestamp.",
@@ -410,6 +410,9 @@ def get_config():
 				config['source']['data'] = get_collector_test_url(config['feature'])
 			elif source == "Manual":
 				config['source']['data'] = inquirer.text('Test Code')
+				# If the test code isn't a website link, wrap in a code block
+				if not config['source']['data'].startswith('http'):
+					config['source']['data'] = "\n```\n" + config['source']['data'] + "\n```"
 			elif source == "Commit":
 				config['source']['data'] = inquirer.text('Link to Commit(s)')
 			elif source == "Bug":
