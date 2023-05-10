@@ -151,9 +151,9 @@ browsers = {
 		"name": "WebView",
 		"long_name": "WebView Android",
 	},
-	"nodejs": {
-		"name": "NodeJS",
-		"long_name": "NodeJS",
+	"chromeandroid": {
+		"name": "Chrome Android",
+		"long_name": "Chrome Android"
 	},
 	"fenix": {
 		"name": "Firefox Android",
@@ -162,6 +162,10 @@ browsers = {
 	"samsung": {
 		"name": "Samsung Internet",
 		"long_name": "Samsung Internet"
+	},
+	"nodejs": {
+		"name": "NodeJS",
+		"long_name": "NodeJS",
 	},
 	"all": {
 		"name": "all browsers",
