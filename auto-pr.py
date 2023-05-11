@@ -370,9 +370,16 @@ def get_config():
 		config['flag'] = inquirer.text("Flag Name")
 		config['file'] = None
 	else:
-		config['feature'] = inquirer.text("Feature Identifier", validate=non_empty)
-		config['category'] = get_category(config['feature'])
-		config['file'] = find_file_by_feature(config['feature'], config['pr_type'] == 'Feature Removal')
+		# Recursively get feature until a matching file is found or skipped by user
+		while not config['file']:
+			config['feature'] = inquirer.text("Feature Identifier", validate=non_empty)
+			config['category'] = get_category(config['feature'])
+			config['file'] = find_file_by_feature(config['feature'], config['pr_type'] == 'Feature Removal')
+			if not config['file']:
+				skip = inquirer.confirm("No matching file found! Proceed anyways?", default=False)
+				if skip:
+					break
+
 		config['feature_description'] = get_feature_description(config['feature'], config['category'])
 		config['title'] = get_feature_title(config['feature'], config['category'])
 
