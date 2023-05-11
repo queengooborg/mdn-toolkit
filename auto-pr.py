@@ -181,6 +181,8 @@ def get_category(feature):
 		if feature.startswith(key):
 			# We don't return yet as there may be a more specific match
 			cat = {"key": key, **value}
+	if not cat:
+		return {"key": "", "title": "feature", "label": None}
 	return cat
 
 def _get_subfeature(feature, category):
@@ -422,7 +424,7 @@ def get_config():
 			elif source == "Bug":
 				config['source']['data'] = inquirer.text('Bug Link(s)')
 
-	if config['category']:
+	if config['category']['label']:
 		config['labels'].append(config['category']['label'])
 
 	# Get additional notes
