@@ -376,7 +376,10 @@ def get_config():
 			config['category'] = get_category(config['feature'])
 			config['file'] = find_file_by_feature(config['feature'], config['pr_type'] == 'Feature Removal')
 			if not config['file']:
-				skip = inquirer.confirm("No matching file found! Proceed anyways?", default=False)
+				skip = inquirer.confirm(
+					"It looks like the entire file was removed, remember to stage the changes first! Proceed?" if config['pr_type'] == 'Feature Removal' else "No matching file found! Proceed anyways?",
+					default=(config['pr_type'] == 'Feature Removal')
+				)
 				if skip:
 					break
 
