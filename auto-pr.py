@@ -454,7 +454,7 @@ def do_lint(config):
 		return
 
 	# Run the fix command first
-	fix_run = subprocess.run(["npm", "run", "fix", config["file"]])
+	fix_run = subprocess.run(["npm", "run", "lint:fix", config["file"]])
 
 	# Recursively run linting
 	do_lint = True
