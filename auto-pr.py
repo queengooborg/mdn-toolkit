@@ -1,17 +1,16 @@
 #!/bin/python3
-
+# -*- encoding: utf-8 -*-
 #
 # bcd-auto-pr.py - © 2023 @queengooborg
-# This script is deigned to make creating PRs for BCD changes much, much easier. Originally
-# written in bash, this has been ported to Python for easier maintenance over time.
+# Written by Queen Vinyl Da.i'gyu-Kazotetsu <https://www.queengoob.org>
+# This script is deigned to make creating PRs for BCD changes much, much easier. Originally written in bash, this has been ported to Python for easier maintenance over time.
 #
 # Requirements:
 # - Python 3.10
 #   - inquirer package
 # - CWD must be a local checkout of mdn/browser-compat-data@github
 #   - Assumes that the 'origin' remote is the remote to push branches to
-# - Assumes a local checkout of GooborgStudios/mdn-bcd-collector@github is present at
-#   ../mdn-bcd-collector
+# - Assumes a local checkout of GooborgStudios/mdn-bcd-collector@github is present at ../mdn-bcd-collector
 #
 
 import os.path
