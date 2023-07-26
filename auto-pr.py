@@ -23,7 +23,7 @@ import inquirer
 
 # --- Config ---
 
-with open(Path(__file__).parent / '../mdn-bcd-collector/package.json', 'r') as package_file:
+with open(Path.cwd() / '../mdn-bcd-collector/package.json', 'r') as package_file:
 	collector_version = json.load(package_file).get('version', '')
 
 mdn_bcd_collector = "[mdn-bcd-collector](https://mdn-bcd-collector.gooborg.com) project (v{0})".format(collector_version)
