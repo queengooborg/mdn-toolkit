@@ -361,8 +361,8 @@ def get_config():
 	if config['pr_type'] == 'Flag Removal':
 		config['flag_removal_type'] = inquirer.list_input(
 			"Is removal by the flag, or by the feature?",
-			choices=["By Flag", "By Feature"]    
-		)
+			choices={"By Flag", "By Feature"}
+		).lower().replace(" ", "_")
 
 	# Get flag or feature name
 	if config['pr_type'] == 'Flag Removal' and config['flag_removal_type'] == 'By Flag':
