@@ -50,8 +50,14 @@ pr_types = {
 		"branch_suffix": "real-values"
 	},
 	"Feature Removal": {
-		"title": "Remove {title} from BCD",
-		"description": "This PR removes the {feature_description} from BCD.",
+		"entire": {
+			"title": "Remove {title} from BCD",
+			"description": "This PR removes the {feature_description} from BCD.",
+		},
+		"subfeatures": {
+			"title": "Remove subfeatures of {title} from BCD",
+			"description": "This PR removes the unsupported subfeatures of the {feature_description} from BCD.",
+		},
 		"reasons": {
 			"Irrelevant": f"Per the [data guidelines](https://github.com/mdn/browser-compat-data/blob/main/docs/data-guidelines/index.md#removal-of-irrelevant-features), this feature can be considered irrelevant and may be removed from BCD accordingly. Even if the current data suggests that the feature is supported, lack of support has been confirmed by the {mdn_bcd_collector}.",
 			"Non-Interface": "This feature is a type (ex. a dictionary, enum, mixin, constant or WebIDL typedef) that we have explicitly stated not to document separately from the feature(s) that depend on it, as they are virtually invisible to the end developer."
@@ -295,7 +301,8 @@ def get_description(config):
 		file_untracked = str(config['file']) in untracked_files
 		description = pr_types['New Entry']['description']['entire_feature' if file_untracked else 'parts_of_feature']
 	elif config['pr_type'] == 'Feature Removal':
-		description += " " + pr_types['Feature Removal']['reasons'].get(
+		title = pr_types['Feature Removal'][config['feature_removal_scope']]['title']
+		description = pr_types['Feature Removal'][config['feature_removal_scope']]['description'] + " " + pr_types['Feature Removal']['reasons'].get(
 			config['feature_removal_reason'], config['feature_removal_reason']
 		)
 	elif config['pr_type'] == 'Flag Removal':
@@ -348,6 +355,7 @@ def get_config():
 		"flag_removal_type": "",
 		"flag": "",
 
+		"feature_removal_scope": "",
 		"feature_removal_reason": ""
 	}
 
@@ -387,6 +395,15 @@ def get_config():
 
 	# Get supporting information
 	if config['pr_type'] == 'Feature Removal':
+		scopes = {
+			"Entire Feature": "entire",
+			"Only Subfeatures": "subfeatures"
+		}
+		scope = inquirer.list_input(
+			"What is the removal scope?",
+			choices=scopes
+		)
+		config['feature_removal_scope'] = scopes[scope]
 		config['feature_removal_reason'] = inquirer.list_input(
 			"Why is this feature being removed?",
 			choices=list(pr_types['Feature Removal']['reasons'].keys()),
