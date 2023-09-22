@@ -156,26 +156,12 @@ browsers = {
 		"name": "WebView",
 		"long_name": "WebView Android",
 	},
-	"chromeandroid": {
-		"name": "Chrome Android",
-		"long_name": "Chrome Android"
-	},
-	"fenix": {
-		"name": "Firefox Android",
-		"long_name": "Firefox Android"
-	},
-	"samsung": {
-		"name": "Samsung Internet",
-		"long_name": "Samsung Internet"
-	},
-	"nodejs": {
-		"name": "NodeJS",
-		"long_name": "NodeJS",
-	},
-	"all": {
-		"name": "all browsers",
-		"long_name": "all browsers"
-	},
+	"chromeandroid": "Chrome Android",
+	"fenix": "Firefox Android",
+	"samsung": "Samsung Internet",
+	"nodejs": "NodeJS",
+	"deno": "Deno",
+	"all": "all browsers",
 }
 
 # --- Helper Functions ---
@@ -398,7 +384,12 @@ def get_config():
 	if config['pr_type'] != 'New Entry' and config['pr_type'] != 'Feature Removal':
 		config['browser'] = inquirer.list_input(
 			'What browser is updated in this PR?',
-			choices=[(v['name'], {"id": k, **v}) for k, v in browsers.items()]
+			choices=[
+				(
+					v if isinstance(v, str) else v['name'],
+					{"id": k, "name": v, "long_name": v} if isinstance(v, str) else {"id": k, **v}
+				) for k, v in browsers.items()
+			]
 		)
 
 	if config['pr_type'] == 'Feature Removal':
