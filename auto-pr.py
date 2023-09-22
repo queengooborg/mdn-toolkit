@@ -210,8 +210,8 @@ def get_feature_title(feature, category):
 	return f"{subfeature[0]} {category['title']}".format(subfeature=subfeature, category=category)
 
 def get_branch_name(config):
-	if config['flag_removal_type'] == 'By Flag':
-		return f"flagremoval/{config['flag']}/{config['browser']['id']}"
+	if config['flag_removal_type'] == 'by_flag':
+		return f"flagremoval/{config['flag'].replace('.', '-')}/{config['browser']['id']}"
 
 	branch_name = f"{config['feature'].replace('.', '/').replace('*', '')}"
 	branch_suffix = pr_types[config['pr_type']].get('branch_suffix')
@@ -373,9 +373,13 @@ def get_config():
 		).lower().replace(" ", "_")
 
 	# Get flag or feature name
-	if config['pr_type'] == 'Flag Removal' and config['flag_removal_type'] == 'By Flag':
+	if config['pr_type'] == 'Flag Removal' and config['flag_removal_type'] == 'by_flag':
 		config['flag'] = inquirer.text("Flag Name")
 		config['file'] = None
+		config['browser'] = inquirer.list_input(
+			'What browser is updated in this PR?',
+			choices=[(v['name'], {"id": k, **v}) for k, v in browsers.items()]
+		)
 	else:
 		# Recursively get feature until a matching file is found or skipped by user
 		while not config['file']:
@@ -450,7 +454,7 @@ def get_config():
 			elif source == "Bug":
 				config['source']['data'] = inquirer.text('Bug Link(s)')
 
-	if config['category']['label']:
+	if config['category'] and config['category']['label']:
 		config['labels'].append(config['category']['label'])
 
 	# Get additional notes
