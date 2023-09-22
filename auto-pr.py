@@ -376,10 +376,6 @@ def get_config():
 	if config['pr_type'] == 'Flag Removal' and config['flag_removal_type'] == 'by_flag':
 		config['flag'] = inquirer.text("Flag Name")
 		config['file'] = None
-		config['browser'] = inquirer.list_input(
-			'What browser is updated in this PR?',
-			choices=[(v['name'], {"id": k, **v}) for k, v in browsers.items()]
-		)
 	else:
 		# Recursively get feature until a matching file is found or skipped by user
 		while not config['file']:
@@ -398,6 +394,13 @@ def get_config():
 		config['title'] = get_feature_title(config['feature'], config['category'])
 
 	# Get supporting information
+
+	if config['pr_type'] != 'New Entry' and config['pr_type'] != 'Feature Removal':
+		config['browser'] = inquirer.list_input(
+			'What browser is updated in this PR?',
+			choices=[(v['name'], {"id": k, **v}) for k, v in browsers.items()]
+		)
+
 	if config['pr_type'] == 'Feature Removal':
 		scopes = {
 			"Entire Feature": "entire",
@@ -424,12 +427,6 @@ def get_config():
 		if config['content_update']:
 			config['labels'].append('needs content update 📝')
 	elif config['pr_type'] != 'Flag Removal':
-		if config['pr_type'] != 'New Entry':
-			config['browser'] = inquirer.list_input(
-				'What browser is updated in this PR?',
-				choices=[(v['name'], {"id": k, **v}) for k, v in browsers.items()]
-			)
-
 		source = inquirer.list_input(
 			"Where does this data come from?",
 			choices=list(data_sources.keys()),
