@@ -123,25 +123,25 @@ def check_file_age(filepath):
 		# Black - not modified since Markdown conversion
 
 	if not commit:
-		return "Black"
+		return ["Black", "undefined"]
 
 	if commit['date'] >= NOW - timedelta(days=30*3):
-		return "Green"
+		return ["Green", commit['hash']]
 	if commit['date'] >= NOW - timedelta(days=30*6):
-		return "Lime"
+		return ["Lime", commit['hash']]
 	if commit['date'] >= NOW - timedelta(days=30*9):
-		return "Yellow"
+		return ["Yellow", commit['hash']]
 	if commit['date'] >= NOW - timedelta(days=30*12):
-		return "Orange"
-	return "Red"
+		return ["Orange", commit['hash']]
+	return ["Red", commit['hash']]
 
 def main():
 	files = sorted(MDN_CONTENT_PATH.rglob('*.md'))
-	print('File,Age')
+	print('File,Age,Commit')
 	for file in files:
 		filepath = os.path.relpath(file, start=MDN_CONTENT_ROOT)
-		age = check_file_age(filepath)
-		print(filepath + ',' + age)
+		age, commit = check_file_age(filepath)
+		print(filepath + ',' + age + ',' + commit)
 
 if __name__ == "__main__":
 	try:
