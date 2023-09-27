@@ -76,9 +76,6 @@ Requirements:
 ### mdn-content-check_file_age.py
 This script checks to see how long ago a file has been modified for content and assigns a corresponding color to its age.  This is designed to check the age of files in the https://github.com/mdn/content or https://github.com/mdn/translated-content repositories.
 
-#### Requirements
-- `tqdm` (available via pip)
-
 #### Usage
 ```
 cd path/to/mdn/(translated-)content/repo
