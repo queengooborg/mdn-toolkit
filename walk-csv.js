@@ -1,3 +1,14 @@
+#!/bin/node
+
+/*
+ * walk-csv.js - © 2023 @queengooborg
+ * Written by Queen Vinyl Da.i'gyu-Kazotetsu <https://www.queengoob.org>
+ * [Description pending...]
+ *
+ * Requirements:
+ * - NodeJS
+ */
+
 const bcd = require('../browser-compat-data');
 const { walk } = require('../browser-compat-data/utils');
 

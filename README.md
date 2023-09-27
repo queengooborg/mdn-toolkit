@@ -24,7 +24,7 @@ This script is a part of an attempt to set true/false values based upon implemen
 - Cloned sources of Chrome, Firefox, and Safari.
 
 #### Usage
-```
+```sh
 python check_webidl.py <browser>
 ```
 
@@ -32,7 +32,7 @@ python check_webidl.py <browser>
 This script calculates the statistics difference between the latest BCD release and the current `HEAD` of the local clone.
 
 #### Usage
-```
+```sh
 python compare_stats.py [browser]
 ```
 
@@ -43,12 +43,12 @@ Currently, the latest BCD release stats must be manually calculated.
 This script iterates through the values of BCD to find any non-real values (`true` or `null` values), and calculates an HTML-formatted, categorized list of entries.
 
 #### Usage
-```
+```sh
 python get_nonreal.py <folder> [browser]
 ```
 
 #### Usage
-```
+```sh
 python set.py <feature> [browser1,browser2...] [value]
 ```
 
@@ -56,7 +56,7 @@ python set.py <feature> [browser1,browser2...] [value]
 This script takes a feature identifier and opens its MDN web docs page in the specified browser (defaults to Chrome).  If the feature identifier doesn't have an `mdn_url` specified, it will get the parent's instead.
 
 #### Usage
-```
+```sh
 python open_docs.py <feature> [browser]
 ```
 
@@ -64,8 +64,16 @@ python open_docs.py <feature> [browser]
 This script is a command-line to quickly set a feature to a specific value.
 
 #### Usage
-```
+```sh
 python set.py <feature> [browser1,browser2...] [value]
+```
+
+### walk-csv.js
+[Description pending...]
+
+#### Usage
+```sh
+node walk-csv.js
 ```
 
 ## Scripts for MDN Content
@@ -77,7 +85,7 @@ Requirements:
 This script checks to see how long ago a file has been modified for content and assigns a corresponding color to its age.  This is designed to check the age of files in the https://github.com/mdn/content or https://github.com/mdn/translated-content repositories.
 
 #### Usage
-```
-cd path/to/mdn/(translated-)content/repo
+```sh
+cd path/to/mdn/[translated-]content/repo
 python mdn-content-check_file_age.py
 ```

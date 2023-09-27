@@ -1,3 +1,15 @@
+#!/bin/python3
+# -*- encoding: utf-8 -*-
+#
+# check_webidl.py - © 2023 @queengooborg
+# Written by Queen Vinyl Da.i'gyu-Kazotetsu <https://www.queengoob.org>
+# This script scans the WebIDL within web browsers' source code to determine if a feature is supported or not.
+#
+# Requirements:
+# - Python 3.10
+# - Cloned sources of Chrome, Firefox, and Safari.
+#
+
 import os
 import sys
 import widlparser
@@ -11,11 +23,11 @@ if len(sys.argv) == 1:
 
 browser = sys.argv[1]
 if browser == 'firefox':
-	webidl_path = "/Users/vinyldarkscratch/Developer/browsers/gecko-dev/dom/webidl"
+	webidl_path = "/Users/queengooborg/Developer/browsers/gecko-dev/dom/webidl"
 elif browser == 'chrome':
-	webidl_path = "/Users/vinyldarkscratch/Developer/browsers/chromium/src/third_party/blink"
+	webidl_path = "/Users/queengooborg/Developer/browsers/chromium/src/third_party/blink"
 elif browser == 'safari':
-	webidl_path = "/Users/vinyldarkscratch/Developer/browsers/WebKit/Source"
+	webidl_path = "/Users/queengooborg/Developer/browsers/WebKit/Source"
 else:
 	print("Browser {0} unknown!".format(browser))
 	sys.exit(1)

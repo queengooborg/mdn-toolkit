@@ -1,3 +1,16 @@
+#!/bin/python3
+# -*- encoding: utf-8 -*-
+#
+# get_nonreal.py - © 2023 @queengooborg
+# Written by Queen Vinyl Da.i'gyu-Kazotetsu <https://www.queengoob.org>
+# This script iterates through the values of BCD to find any non-real values (`true` or `null` values), and calculates an HTML-formatted, categorized list of entries.
+#
+# Requirements:
+# - Python 3.10
+# - CWD must be a local checkout of mdn/browser-compat-data@github
+#
+
+from pathlib import Path
 import re
 import os
 import sys
@@ -7,7 +20,7 @@ if len(sys.argv) < 2:
 	print("Usage: python get_nonreal.py <folder> [browser]")
 	sys.exit(0)
 
-bcd_path = os.path.abspath("../browser-compat-data")
+bcd_path = Path.cwd()
 browsers = [sys.argv[2]] if len(sys.argv) > 2 else ['Chrome', 'Edge', 'Firefox', 'IE', 'Safari']
 folder = sys.argv[1]
 

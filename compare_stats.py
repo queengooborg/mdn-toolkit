@@ -1,8 +1,21 @@
+#!/bin/python3
+# -*- encoding: utf-8 -*-
+#
+# compare_stats.py - © 2023 @queengooborg
+# Written by Queen Vinyl Da.i'gyu-Kazotetsu <https://www.queengoob.org>
+# This script calculates the statistics difference between the latest BCD release and the current `HEAD` of the local clone.
+#
+# Requirements:
+# - Python 3.10
+# - CWD must be a local checkout of mdn/browser-compat-data@github
+#
+
+from pathlib import Path
 import sys
 import os
 import subprocess
 
-bcd_path = os.path.abspath("../browser-compat-data")
+bcd_path = Path.cwd()
 
 browsers = ['chrome', 'chrome android', 'edge', 'firefox', 'ie', 'safari', 'safari ios', 'webview android']
 if len(sys.argv) >= 2:
