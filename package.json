@@ -8,7 +8,7 @@
     "url": "git+https://github.com/queengooborg/mdn-toolkit.git"
   },
   "author": "Vinyl Da.i'gyu-Kazotetsu [https://www.queengoob.org]",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0-only",
   "bugs": {
     "url": "https://github.com/queengooborg/mdn-toolkit/issues"
   },
