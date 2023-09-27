@@ -10,7 +10,7 @@
 #   - inquirer package
 # - CWD must be a local checkout of mdn/browser-compat-data@github
 #   - Assumes that the 'origin' remote is the remote to push branches to
-# - Assumes a local checkout of GooborgStudios/mdn-bcd-collector@github is present at ../mdn-bcd-collector
+# - Assumes a local checkout of openwebdocs/mdn-bcd-collector@github is present at ../mdn-bcd-collector
 #
 
 import os.path
@@ -27,7 +27,7 @@ with open(Path.cwd() / '../mdn-bcd-collector/package.json', 'r') as package_file
 	collector_version = json.load(package_file).get('version', '')
 
 mdn_bcd_collector = "[mdn-bcd-collector](https://mdn-bcd-collector.gooborg.com) project (v{0})".format(collector_version)
-collector_guide_link = "_Check out the [collector's guide on how to review this PR](https://github.com/GooborgStudios/mdn-bcd-collector/blob/main/docs/reviewing-bcd-changes.md)._"
+collector_guide_link = "_Check out the [collector's guide on how to review this PR](https://github.com/openwebdocs/mdn-bcd-collector/blob/main/docs/reviewing-bcd-changes.md)._"
 
 # Titles and descriptions for each type of PR and their specific parameters
 pr_types = {
@@ -80,7 +80,7 @@ pr_types = {
 # Details on where the data comes from
 data_sources = {
 	"mdn-bcd-collector": {
-		"description": f"The data comes from the {mdn_bcd_collector}.\n\n_Check out the [collector's guide on how to review this PR](https://github.com/GooborgStudios/mdn-bcd-collector#reviewing-bcd-changes)._",
+		"description": f"The data comes from the {mdn_bcd_collector}.\n\n_Check out the [collector's guide on how to review this PR](https://github.com/openwebdocs/mdn-bcd-collector#reviewing-bcd-changes)._",
 		"source": "Tests Used: {source}"
 	},
 	"Manual": {
