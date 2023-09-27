@@ -7,14 +7,18 @@
 #
 # Requirements:
 # - Python 3.10
+# - pip install tqdm
 # - CWD must be a local checkout of mdn/content@github
 #
 
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import os.path
+import multiprocessing
 import re
 import subprocess
+
+import tqdm
 
 MDN_CONTENT_ROOT = Path.cwd()
 MDN_CONTENT_PATH = MDN_CONTENT_ROOT / 'files'
@@ -135,13 +139,21 @@ def check_file_age(filepath):
 		return ["Orange", commit['hash']]
 	return ["Red", commit['hash']]
 
+def get_file_details(file):
+	filepath = os.path.relpath(file, start=MDN_CONTENT_ROOT)
+	age, commit = check_file_age(filepath)
+	return filepath + ',' + age + ',' + commit
+
 def main():
 	files = sorted(MDN_CONTENT_PATH.rglob('*.md'))
+	result = []
+
+	with multiprocessing.Pool(multiprocessing.cpu_count()) as pool:
+		for details in tqdm.tqdm(pool.imap_unordered(get_file_details, files), total=len(files), leave=False):
+			result.append(details)
+
 	print('File,Age,Commit')
-	for file in files:
-		filepath = os.path.relpath(file, start=MDN_CONTENT_ROOT)
-		age, commit = check_file_age(filepath)
-		print(filepath + ',' + age + ',' + commit)
+	print('\n'.join(result))
 
 if __name__ == "__main__":
 	try:
