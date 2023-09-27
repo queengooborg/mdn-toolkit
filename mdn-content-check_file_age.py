@@ -142,7 +142,7 @@ def check_file_age(filepath):
 def get_file_details(file):
 	filepath = os.path.relpath(file, start=MDN_CONTENT_ROOT)
 	age, commit = check_file_age(filepath)
-	return filepath + ',' + age + ',' + commit
+	return [filepath, age, commit]
 
 def main():
 	files = sorted(MDN_CONTENT_PATH.rglob('*.md'))
@@ -153,7 +153,8 @@ def main():
 			result.append(details)
 
 	print('File,Age,Commit')
-	print('\n'.join(result))
+	for r in sorted(result, key=lambda x: x[0]):
+		print(','.join(r))
 
 if __name__ == "__main__":
 	try:
