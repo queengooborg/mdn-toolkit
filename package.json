@@ -1,18 +1,18 @@
 {
-  "name": "bcd-toolkit",
+  "name": "mdn-toolkit",
   "version": "1.0.0",
-  "description": "bcd-toolkit",
+  "description": "mdn-toolkit",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vinyldarkscratch/bcd-toolkit.git"
+    "url": "git+https://github.com/queengooborg/mdn-toolkit.git"
   },
-  "author": "Vinyl Darkscratch [https://www.queengoob.org]",
+  "author": "Vinyl Da.i'gyu-Kazotetsu [https://www.queengoob.org]",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/vinyldarkscratch/bcd-toolkit/issues"
+    "url": "https://github.com/queengooborg/mdn-toolkit/issues"
   },
-  "homepage": "https://github.com/vinyldarkscratch/bcd-toolkit#readme",
+  "homepage": "https://github.com/queengooborg/mdn-toolkit#readme",
   "dependencies": {
     "@mdn/browser-compat-data": "^2.0.7"
   }
