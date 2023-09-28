@@ -23,17 +23,13 @@ import tqdm
 MDN_CONTENT_ROOT = Path.cwd()
 MDN_CONTENT_PATH = MDN_CONTENT_ROOT / 'files'
 
-NOW = datetime.now(timezone.utc)
+NOW = datetime.now()
 
-def re_search(regex, string, group=0, default_value=None, cast=str):
-	search = re.search(regex, string)
-	if not search:
-		return default_value
+def safe_int(string, default=0):
 	try:
-		return cast(search.group(group))
-	except IndexError:
-		# The group doesn't exist; return the default value
-		return default_value
+		return int(string)
+	except ValueError:
+		return default
 
 def get_commit_details(commit_hash, filepath):
 	details = {
@@ -54,33 +50,35 @@ def get_commit_details(commit_hash, filepath):
 	}
 
 	raw_details = subprocess.run(
-		['git', 'show', commit_hash, '--stat'],
+		['git', 'show', commit_hash, '--format=%at', '--numstat'],
 		cwd=MDN_CONTENT_ROOT,
 		capture_output=True
-	).stdout.decode('utf-8')
+	).stdout.decode('utf-8').split('\n')
 
 	# Get commit date
-	date = re_search(r"Date:\s+([\w\d \-\+:]+)\n", raw_details, 1)
-	details['date'] = datetime.strptime(date, '%c %z')
-	details['files_changed'] = re_search(r"(\d+) files? changed", raw_details, 1, 0, int)
+	details['date'] = datetime.fromtimestamp(int(raw_details[0]))
 
-	details['global_changes']['insertions'] = re_search(r"(\d+) insertions?\(\+\)", raw_details, 1, 0, int)
-	details['global_changes']['deletions'] = re_search(r"(\d+) deletions?\(-\)", raw_details, 1, 0, int)
+	files_changed = raw_details[2:-1]
+
+	for f in files_changed:
+		insertions, deletions, filename = f.split('\t')
+
+		details['files_changed'] += 1
+
+		details['global_changes']['insertions'] += safe_int(insertions)
+		details['global_changes']['deletions'] += safe_int(deletions)
+
+		if filename == filepath:
+			# Set file-specific change counts
+			details['file_changes']['insertions'] = safe_int(insertions)
+			details['file_changes']['deletions'] = safe_int(deletions)
+			details['file_changes']['total'] = details['file_changes']['insertions'] + details['file_changes']['deletions']
+
+			# Check if the target file was renamed to Markdown
+			if filename == os.path.dirname(filepath) + "/{index.html => index.md}":
+				details['converted_to_markdown'] = True
+
 	details['global_changes']['total'] = details['global_changes']['insertions'] + details['global_changes']['deletions']
-
-	if re.search(os.path.dirname(filepath) + r"/{index\.html => index\.md}", raw_details):
-		details['converted_to_markdown'] = True
-
-	raw_file_details = subprocess.run(
-		['git', 'show', commit_hash, '--stat', filepath],
-		cwd=MDN_CONTENT_ROOT,
-		capture_output=True
-	).stdout.decode('utf-8')
-
-	# Get change counts
-	details['file_changes']['insertions'] = re_search(r"(\d+) insertions?\(\+\)", raw_file_details, 1, 0, int)
-	details['file_changes']['deletions'] = re_search(r"(\d+) deletions?\(-\)", raw_file_details, 1, 0, int)
-	details['file_changes']['total'] = details['file_changes']['insertions'] + details['file_changes']['deletions']
 
 	return details
 
@@ -115,10 +113,8 @@ def get_significant_commit(filepath):
 	# There probably have been no content updates since Markdown conversion
 	return None
 
-def check_file_age(filepath):
-	commit = get_significant_commit(filepath)
-
-	# Return a hue between Green and Red, following the age:
+def check_file_age(commit):
+	# Return a hue between Green-Red or Black, following the age:
 		# Green - modified within the last three months
 		# Lime - modified within the last six months
 		# Yellow - modified within the last nine months
@@ -127,21 +123,22 @@ def check_file_age(filepath):
 		# Black - not modified since Markdown conversion
 
 	if not commit:
-		return ["Black", "undefined"]
+		return "Black"
 
 	if commit['date'] >= NOW - timedelta(days=30*3):
-		return ["Green", commit['hash']]
+		return "Green"
 	if commit['date'] >= NOW - timedelta(days=30*6):
-		return ["Lime", commit['hash']]
+		return "Lime"
 	if commit['date'] >= NOW - timedelta(days=30*9):
-		return ["Yellow", commit['hash']]
+		return "Yellow"
 	if commit['date'] >= NOW - timedelta(days=30*12):
-		return ["Orange", commit['hash']]
-	return ["Red", commit['hash']]
+		return "Orange"
+	return "Red"
 
 def get_file_details(file):
 	filepath = os.path.relpath(file, start=MDN_CONTENT_ROOT)
-	age, commit = check_file_age(filepath)
+	commit = get_significant_commit(filepath)
+	age = check_file_age(commit)
 	return [filepath, age, commit]
 
 def main():
