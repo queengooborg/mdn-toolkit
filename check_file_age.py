@@ -1,7 +1,7 @@
 #!/bin/python3
 # -*- encoding: utf-8 -*-
 #
-# mdn-content-check_file_age.py - © 2023 @queengooborg
+# check_file_age.py - © 2023 @queengooborg
 # Written by Queen Vinyl Da.i'gyu-Kazotetsu <https://www.queengoob.org>
 # This script checks to see how long ago a file has been modified for content and assigns a corresponding color to its age.  This is designed to check the age of files in the https://github.com/mdn/content or https://github.com/mdn/translated-content repositories.
 #
@@ -139,7 +139,7 @@ def get_file_details(file):
 	filepath = os.path.relpath(file, start=MDN_CONTENT_ROOT)
 	commit = get_significant_commit(filepath)
 	age = check_file_age(commit)
-	return [filepath, age, commit]
+	return dict(filepath=filepath, age=age, commit=commit)
 
 def main():
 	files = sorted(MDN_CONTENT_PATH.rglob('*.md'))
@@ -150,8 +150,8 @@ def main():
 			result.append(details)
 
 	print('File,Age,Commit')
-	for r in sorted(result, key=lambda x: x[0]):
-		print(','.join(r))
+	for r in sorted(result, key=lambda x: x['filepath']):
+		print("{filepath},{age},{hash}".format(hash=r['commit']['hash'] if r['commit'] else 'None', **r))
 
 if __name__ == "__main__":
 	try:

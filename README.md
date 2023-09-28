@@ -81,11 +81,11 @@ node walk-csv.js
 Requirements:
 - [MDN Web Docs' Content](https://github.com/mdn/content) and/or [Translated Content](https://github.com/mdn/translated-content) locally cloned (for modifications)
 
-### mdn-content-check_file_age.py
+### check_file_age.py
 This script checks to see how long ago a file has been modified for content and assigns a corresponding color to its age.  This is designed to check the age of files in the https://github.com/mdn/content or https://github.com/mdn/translated-content repositories.
 
 #### Usage
 ```sh
 cd path/to/mdn/[translated-]content/repo
-python mdn-content-check_file_age.py
+python check_file_age.py
 ```
