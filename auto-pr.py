@@ -37,10 +37,13 @@ pr_types = {
 		"branch_suffix": "corrections"
 	},
 	"New Entry": {
-		"title": "Add missing features for {title}",
-		"description": {
-			"parts_of_feature": "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser. This particular PR adds the missing features of the {feature_description}.",
-			"entire_feature": "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser. This particular PR adds the missing {feature_description}."
+		"entire": {
+			"title": "Add missing {title} feature",
+			"description": "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser. This particular PR adds the missing {feature_description}.",
+		},
+		"subfeatures": {
+			"title": "Add missing features for {title}",
+			"description": "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser. This particular PR adds the missing features of the {feature_description}."
 		},
 		"branch_suffix": "additions"
 	},
@@ -280,12 +283,8 @@ def get_description(config):
 	description = pr_types[config['pr_type']].get('description', '')
 
 	if config['pr_type'] == 'New Entry':
-		untracked_files = subprocess.run(
-			['git', 'ls-files', '--other', '--exclude-standard'],
-			capture_output=True
-		).stdout.decode('utf-8')
-		file_untracked = str(config['file']) in untracked_files
-		description = pr_types['New Entry']['description']['entire_feature' if file_untracked else 'parts_of_feature']
+		title = pr_types['New Entry'][config['feature_addition_scope']]['title']
+		description = pr_types['New Entry'][config['feature_addition_scope']]['description']
 	elif config['pr_type'] == 'Feature Removal':
 		title = pr_types['Feature Removal'][config['feature_removal_scope']]['title']
 		description = pr_types['Feature Removal'][config['feature_removal_scope']]['description'] + " " + pr_types['Feature Removal']['reasons'].get(
@@ -341,6 +340,7 @@ def get_config():
 		"flag_removal_type": "",
 		"flag": "",
 
+		"feature_addition_scope": "",
 		"feature_removal_scope": "",
 		"feature_removal_reason": ""
 	}
@@ -380,6 +380,24 @@ def get_config():
 		config['title'] = get_feature_title(config['feature'], config['category'])
 
 	# Get supporting information
+
+	if config['pr_type'] == 'New Entry':
+		untracked_files = subprocess.run(
+			['git', 'ls-files', '--other', '--exclude-standard'],
+			capture_output=True
+		).stdout.decode('utf-8')
+		if str(config['file']) in untracked_files:
+			config['feature_addition_scope'] = 'entire'
+		else:
+			scopes = {
+				"Entire Feature": "entire",
+				"Only Subfeatures": "subfeatures"
+			}
+			scope = inquirer.list_input(
+				"What is the addition scope?",
+				choices=scopes
+			)
+			config['feature_addition_scope'] = scopes[scope]
 
 	if config['pr_type'] != 'New Entry' and config['pr_type'] != 'Feature Removal':
 		config['browser'] = inquirer.list_input(
