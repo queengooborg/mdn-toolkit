@@ -44,7 +44,7 @@ const main = async () => {
 
             const result = processMacro(macro, args);
 
-            if (result) {
+            if (result !== undefined) {
                 changed = true;
                 contents = contents.replace(match[0], result);
             }
