@@ -62,7 +62,7 @@ const processMacro = (macro, args) => {
 	}
 }
 
-const main = async () => {
+const main = async (macroFilter = null) => {
 	for await (const p of walk((`./files`))) {
 		// Skip non-Markdown files
 		if (!(p.endsWith('.md'))) continue;
@@ -74,6 +74,10 @@ const main = async () => {
 		for (const match of originalContents.matchAll(re)) {
 			const macro = match.groups.macro.toLowerCase();
 			const args = parseArgs(match.groups.args?.split(/,\s?/g));
+
+			if (macroFilter && macro != macroFilter) {
+				continue;
+			}
 
 			const result = processMacro(macro, args);
 
@@ -89,4 +93,4 @@ const main = async () => {
 	}
 }
 
-await main();
+await main(process.argv[2]);
