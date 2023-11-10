@@ -11,49 +11,49 @@ const re = /{{\s?(?<macro>\w+)\s?(?:\((?<args>(?:(?:"([^"](\\")?)*"|'([^'](\\')?
 
 // https://gist.github.com/lovasoa/8691344
 async function* walk(dir) {
-    for await (const d of await fs.opendir(dir)) {
-        const entry = path.join(dir, d.name);
-        if (d.isDirectory()) yield* walk(entry);
-        else if (d.isFile() && d.name != ".DS_Store") yield entry;
-    }
+	for await (const d of await fs.opendir(dir)) {
+		const entry = path.join(dir, d.name);
+		if (d.isDirectory()) yield* walk(entry);
+		else if (d.isFile() && d.name != ".DS_Store") yield entry;
+	}
 }
 // END SNIPPET
 
 const processMacro = (macro, args) => {
-    switch (macro) {
-        case 'compat':
-            if (args) {
-                return '{{Compat}}'
-            }
-            break;
-    }
+	switch (macro) {
+		case 'compat':
+			if (args) {
+				return '{{Compat}}'
+			}
+			break;
+	}
 }
 
 const main = async () => {
-    for await (const p of walk((`${process.env.HOME}/Developer/Gooborg/MDN/translated-content/files`))) {
-        // Skip non-Markdown files
-        if (!(p.endsWith('.md'))) continue;
+	for await (const p of walk((`${process.env.HOME}/Developer/Gooborg/MDN/translated-content/files`))) {
+		// Skip non-Markdown files
+		if (!(p.endsWith('.md'))) continue;
 
-        const originalContents = await fs.readFile(p, 'utf-8');
-        let contents = originalContents;
-        let changed = false;
+		const originalContents = await fs.readFile(p, 'utf-8');
+		let contents = originalContents;
+		let changed = false;
 
-        for (const match of originalContents.matchAll(re)) {
-            const macro = match.groups.macro.toLowerCase();
-            const args = match.groups.args?.split(',');
+		for (const match of originalContents.matchAll(re)) {
+			const macro = match.groups.macro.toLowerCase();
+			const args = match.groups.args?.split(',');
 
-            const result = processMacro(macro, args);
+			const result = processMacro(macro, args);
 
-            if (result !== undefined) {
-                changed = true;
-                contents = contents.replace(match[0], result);
-            }
-        }
+			if (result !== undefined) {
+				changed = true;
+				contents = contents.replace(match[0], result);
+			}
+		}
 
-        if (changed) {
-            await fs.writeFile(p, contents);
-        }
-    }
+		if (changed) {
+			await fs.writeFile(p, contents);
+		}
+	}
 }
 
 await main();
