@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "mdn-toolkit",
   "private": true,
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/queengooborg/mdn-toolkit.git"
@@ -14,6 +15,7 @@
   },
   "homepage": "https://github.com/queengooborg/mdn-toolkit#readme",
   "dependencies": {
-    "@mdn/browser-compat-data": "^2.0.7"
+    "@mdn/browser-compat-data": "^2.0.7",
+    "es-main": "^1.3.0"
   }
 }

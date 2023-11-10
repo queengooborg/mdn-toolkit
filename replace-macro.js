@@ -1,8 +1,14 @@
-//
-// Script to replace macros within MDN content with other text
-// Useful for mass removal of macros
-// Written by @queengooborg
-//
+#!/bin/node
+
+/*
+ * replace-macro.js - © 2023 @queengooborg
+ * Written by Queen Vinyl Da.i'gyu-Kazotetsu <https://www.queengoob.org>
+ * Script to replace macros within MDN content with other text, useful for mass removal of macros
+ *
+ * Requirements:
+ * - NodeJS
+ * - mdn/content or mdn/translated-content as CWD
+ */
 
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -30,7 +36,7 @@ const processMacro = (macro, args) => {
 }
 
 const main = async () => {
-	for await (const p of walk((`${process.env.HOME}/Developer/Gooborg/MDN/translated-content/files`))) {
+	for await (const p of walk((`./files`))) {
 		// Skip non-Markdown files
 		if (!(p.endsWith('.md'))) continue;
 

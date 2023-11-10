@@ -9,8 +9,10 @@
  * - NodeJS
  */
 
-const bcd = require('../browser-compat-data');
-const { walk } = require('../browser-compat-data/utils');
+import esMain from "es-main";
+
+const {default: bcd} = await import('../browser-compat-data');
+const { walk } = await import('../browser-compat-data/utils');
 
 const browsers = Object.keys(bcd.browsers);
 
@@ -72,6 +74,6 @@ function main() {
 	}
 }
 
-if (require.main === module) {
+if (esMain(import.meta)) {
 	main();
 }
