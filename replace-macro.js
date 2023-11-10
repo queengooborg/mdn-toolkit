@@ -25,6 +25,29 @@ async function* walk(dir) {
 }
 // END SNIPPET
 
+const parseArgs = (args) => {
+	if (!args) {
+		return args;
+	}
+
+	const result = [];
+	for (const arg of args) {
+		// Some arguments use single quotes
+		if (arg.search(/'([^']*)'/g) > -1) {
+			result.push(arg.substr(1, arg.length - 2));
+			continue;
+		}
+
+		try {
+			result.push(JSON.parse(arg));
+		} catch(e) {
+			result.push(arg);
+		}
+	}
+
+	return result;
+}
+
 const processMacro = (macro, args) => {
 	switch (macro) {
 		// case 'compat':
@@ -48,7 +71,7 @@ const main = async () => {
 
 		for (const match of originalContents.matchAll(re)) {
 			const macro = match.groups.macro.toLowerCase();
-			const args = match.groups.args?.split(',');
+			const args = parseArgs(match.groups.args?.split(/,\s?/g));
 
 			const result = processMacro(macro, args);
 
