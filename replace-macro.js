@@ -27,11 +27,13 @@ async function* walk(dir) {
 
 const processMacro = (macro, args) => {
 	switch (macro) {
-		case 'compat':
-			if (args) {
-				return '{{Compat}}'
-			}
-			break;
+		// case 'compat':
+		// 	if (args) {
+		// 		return '{{Compat}}';
+		// 	}
+		// 	break;
+		case 'bug':
+			return `[Firefox bug ${args[0]}](https://bugzil.la/${args[0]})`;
 	}
 }
 
