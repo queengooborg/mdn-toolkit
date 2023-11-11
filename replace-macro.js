@@ -59,6 +59,8 @@ const processMacro = (macro, args) => {
 			return `[Firefox bug ${args[0]}](https://bugzil.la/${args[0]})`;
 		case 'htmlattrdef':
 			return `\`${args[0]}\``;
+		case 'xref_cssvisual':
+			return `{{cssxref("Media/Visual", "visual")}}`
 	}
 }
 
