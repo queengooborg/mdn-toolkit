@@ -559,10 +559,15 @@ def do_pr(config):
 	if config['auto_stage']:
 		run_command(f"Staging {config['file']}...", ['git', 'add', config['file']])
 
-	# Create commit and pull request
+	# Create commit
 	run_command("Creating commit...", ['git', 'commit'] + flatten([
 		['-m', line] for line in config['description'].split('\n')
 	]))
+
+	# Wait for user input (the user may want to change the commit message)
+	input("Make changes to the commit message and/or press Enter to continue")
+
+	# Create pull request
 	run_command("Pushing branch...", ['git', 'push', '--set-upstream', 'origin', config['branch']])
 	run_command("Creating PR...", ['gh', 'pr', 'create', '--fill'] + flatten([['-l', label] for label in config['labels']]))
 
