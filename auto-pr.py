@@ -97,6 +97,9 @@ data_sources = {
 	"Bug": {
 		"description": "The data comes from a bug in the web browser's bug tracker.",
 		"source": "Bug: {source}"
+	},
+	"Issue Fix": {
+		"description": "This fixes #{source}, which contains the supporting evidence for this change."
 	}
 }
 
@@ -304,8 +307,9 @@ def get_description(config):
 		source_data = data_sources.get(config['source']['type'], None)
 		if source_data:
 			if config['pr_type'] != 'Feature Removal':
-				description += " " + source_data['description']
-			description += "\n\n" + source_data['source'].format(source=config['source']['data'])
+				description += " " + source_data['description'].format(source=config['source']['data'])
+			if 'source' in source_data.keys():
+				description += "\n\n" + source_data['source'].format(source=config['source']['data'])
 		else:
 			description += " " + config['source']['data']
 
@@ -465,6 +469,8 @@ def get_config():
 				config['source']['data'] = inquirer.text('Link to Commit(s)')
 			elif source == "Bug":
 				config['source']['data'] = inquirer.text('Bug Link(s)')
+			elif source == 'Issue Fix':
+				config['source']['data'] = inquirer.text('What is the issue this fixes?').replace('#', '')
 
 	if config['category'] and config['category']['label']:
 		config['labels'].append(config['category']['label'])
