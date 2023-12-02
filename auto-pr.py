@@ -189,6 +189,8 @@ def _get_subfeature(feature, category):
 def get_feature_description(feature, category):
 	subfeature = _get_subfeature(feature, category)
 	if subfeature[1]:
+		if subfeature[1].endswith('_static'):
+			return f"`{subfeature[1].replace('_static', '')}` static method of the `{subfeature[0]}` {category['title']}".format(subfeature=subfeature, category=category)
 		return f"`{subfeature[1]}` member of the `{subfeature[0]}` {category['title']}".format(subfeature=subfeature, category=category)
 	return f"`{subfeature[0]}` {category['title']}".format(subfeature=subfeature, category=category)
 
