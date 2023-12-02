@@ -256,7 +256,11 @@ def find_file_by_feature(feature, skip_file_search = False):
 			continue
 		else:
 			# Neither a .json nor folder was found, assume feature not present
-			# XXX Handle special cases, such as _globals folder
+			if parts[0] == "api":
+				globalsPath = cwd / "_globals" / (parts[1]+".json")
+				if os.path.exists(globalsPath):
+					return globalsPath
+
 			return False
 
 	# We have gone through all parts of the feature and did not find a matching file or folder
