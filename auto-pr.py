@@ -262,9 +262,14 @@ def find_file_by_feature(feature, skip_file_search = False):
 		else:
 			# Neither a .json nor folder was found, assume feature not present
 			if parts[0] == "api":
-				globalsPath = cwd / "_globals" / (parts[1]+".json")
-				if os.path.exists(globalsPath):
-					return globalsPath
+				globals_path = cwd / "_globals" / (parts[1]+".json")
+				if os.path.exists(globals_path) and _find_feature_in_file(feature, globals_path):
+					return globals_path
+
+			if feature.startswith("html.elements.input.type_"):
+				input_path = cwd / (parts[3].replace('type_', '')+'.json')
+				if os.path.exists(input_path) and _find_feature_in_file(feature, input_path):
+					return input_path
 
 			return False
 
