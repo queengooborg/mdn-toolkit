@@ -271,6 +271,11 @@ def find_file_by_feature(feature, skip_file_search = False):
 				if os.path.exists(input_path) and _find_feature_in_file(feature, input_path):
 					return input_path
 
+			if feature.startswith("javascript.builtins.Intl.") or feature.startswith("javascript.builtins.Temporal."):
+				input_path = cwd / (parts[3]+'.json')
+				if os.path.exists(input_path) and _find_feature_in_file(feature, input_path):
+					return input_path
+
 			return False
 
 	# We have gone through all parts of the feature and did not find a matching file or folder
