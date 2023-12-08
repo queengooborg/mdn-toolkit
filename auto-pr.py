@@ -126,6 +126,8 @@ categories = {
 	"webextensions": { "title": "Web Extensions feature", "label": "data:webext :game_die:" },
 	"webextensions.api": { "title": "Web Extensions interface", "label": "data:webext :game_die:" },
 	"webextensions.manifest": { "title": "Web Extensions manifest property", "label": "data:webext :game_die:" },
+	"webassembly": { "title": "WebAssembly feature", "label": "data:wasm :mechanical_arm:" },
+	"webassembly.api": { "title": "WebAssembly interface", "label": "data:wasm :mechanical_arm:" },
 }
 
 # All applicable web browsers
