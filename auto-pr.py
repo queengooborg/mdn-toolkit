@@ -198,6 +198,8 @@ def get_feature_description(feature, category):
 	return f"`{subfeature[0]}` {category['title']}".format(subfeature=subfeature, category=category)
 
 def get_feature_title(feature, category):
+	if not category:
+		return feature
 	subfeature = _get_subfeature(feature, category)
 	if subfeature[1]:
 		return feature
