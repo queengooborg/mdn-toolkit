@@ -39,11 +39,11 @@ pr_types = {
 	"New Entry": {
 		"entire": {
 			"title": "Add missing {title} feature",
-			"description": "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser. This particular PR adds the missing {feature_description}.",
+			"description": "This PR adds the missing {feature_description}.",
 		},
 		"subfeatures": {
 			"title": "Add missing features for {title}",
-			"description": "This PR is a part of a project to add missing interfaces and interface features to BCD that are from an active spec (including WICG specs) and is supported in at least one browser. This particular PR adds the missing features of the {feature_description}."
+			"description": "This PR adds the missing features of the {feature_description}."
 		},
 		"branch_suffix": "additions"
 	},
