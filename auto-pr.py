@@ -31,10 +31,15 @@ collector_guide_link = "_Check out the [collector's guide on how to review this 
 
 # Titles and descriptions for each type of PR and their specific parameters
 pr_types = {
-	"Corrections": {
+	"Compat Data Corrections": {
 		"title": "Update {browser} data for {title}",
 		"description": "This PR updates and corrects version values for {browser_full} for the {feature_description}.",
 		"branch_suffix": "corrections"
+	},
+	"Metadata Corrections": {
+		"title": "Update metadata for {title}",
+		"description": "This PR updates and corrects the metadata (spec URLs, descriptions, statuses, etc.) for the {feature_description}.",
+		"branch_suffix": "metadata-corrections"
 	},
 	"New Entry": {
 		"entire": {
@@ -423,7 +428,7 @@ def get_config():
 			)
 			config['feature_addition_scope'] = scopes[scope]
 
-	if config['pr_type'] != 'New Entry' and config['pr_type'] != 'Feature Removal':
+	if config['pr_type'] in ['New Entry', 'Metadata Corrections', 'Feature Removal']:
 		config['browser'] = inquirer.list_input(
 			'What browser is updated in this PR?',
 			choices=[
