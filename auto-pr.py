@@ -428,7 +428,7 @@ def get_config():
 			)
 			config['feature_addition_scope'] = scopes[scope]
 
-	if config['pr_type'] in ['New Entry', 'Metadata Corrections', 'Feature Removal']:
+	if config['pr_type'] not in ['New Entry', 'Metadata Corrections', 'Feature Removal']:
 		config['browser'] = inquirer.list_input(
 			'What browser is updated in this PR?',
 			choices=[
