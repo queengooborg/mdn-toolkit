@@ -464,7 +464,7 @@ def get_config():
 		config['content_update'] = inquirer.confirm("Is an mdn/content update required?", default=True)
 		if config['content_update']:
 			config['labels'].append('needs content update 📝')
-	elif config['pr_type'] != 'Flag Removal':
+	elif config['pr_type'] not in ['Metadata Corrections', 'Flag Removal']:
 		source = inquirer.list_input(
 			"Where does this data come from?",
 			choices=list(data_sources.keys()),
