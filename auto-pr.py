@@ -91,6 +91,10 @@ data_sources = {
 		"description": f"The data comes from the {mdn_bcd_collector}.\n\n_Check out the [collector's guide on how to review this PR](https://github.com/openwebdocs/mdn-bcd-collector#reviewing-bcd-changes)._",
 		"source": "Tests Used: {source}"
 	},
+	"runtime-compat": {
+		"description": f"The data comes from the {mdn_bcd_collector}, using results collected via [UnJS' runtime-compat project](https://github.com/unjs/runtime-compat).\n\n_Check out the [collector's guide on how to review this PR](https://github.com/openwebdocs/mdn-bcd-collector#reviewing-bcd-changes)._",
+		"source": "Tests Used: {source}"
+	},
 	"Manual": {
 		"description": "The data comes from manual testing, running test code through BrowserStack, SauceLabs and custom VMs.",
 		"source": "Test Code: {source}"
@@ -477,7 +481,7 @@ def get_config():
 		else:
 			config['source']['type'] = source
 
-			if source == "mdn-bcd-collector":
+			if source in ["mdn-bcd-collector", "runtime-compat"]:
 				config['source']['data'] = get_collector_test_url(config['feature'])
 			elif source == "Manual":
 				config['source']['data'] = inquirer.text('Test Code')
