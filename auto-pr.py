@@ -487,7 +487,7 @@ def get_config():
 				config['source']['data'] = inquirer.text('Test Code')
 				# If the test code isn't a website link, wrap in a code block
 				if not config['source']['data'].startswith('http'):
-					config['source']['data'] = "\n```\n" + config['source']['data'] + "\n```"
+					config['source']['data'] = f"\n```\n{config['source']['data'].strip()}\n```"
 			elif source == "Commit":
 				config['source']['data'] = inquirer.text('Link to Commit(s)')
 			elif source == "Bug":
