@@ -96,7 +96,7 @@ data_sources = {
 		"source": "Tests Used: {source}"
 	},
 	"Manual": {
-		"description": "The data comes from manual testing, running test code through BrowserStack, SauceLabs and custom VMs.",
+		"description": "The data comes from manual testing, running test code through BrowserStack, SauceLabs, custom VMs and/or locally.",
 		"source": "Test Code: {source}"
 	},
 	"Commit": {
