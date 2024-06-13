@@ -78,7 +78,7 @@ const main = async (filepath) => {
 			const re = regex(strings);
 			if (contents.match(re)) {
 				// If there's any match, replace all matches
-				contents = contents.replace(re, `> ![${type}]\n> `);
+				contents = contents.replace(re, `> [!${type}]\n> `);
 				changed = true;
 			}
 
