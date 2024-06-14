@@ -109,6 +109,10 @@ data_sources = {
 	},
 	"Issue Fix": {
 		"description": "This fixes #{source}, which contains the supporting evidence for this change."
+	},
+	"Earliest Range from Commit": {
+		"description": "This sets the feature(s) to a version range based upon the date that the feature was added to BCD with the intent of replacing `true` values with ranged values to eliminate `true` values from BCD.",
+		"source": "Commit/PR Adding the Feature: {source}"
 	}
 }
 
@@ -494,6 +498,8 @@ def get_config():
 				config['source']['data'] = inquirer.text('Bug Link(s)')
 			elif source == 'Issue Fix':
 				config['source']['data'] = inquirer.text('What is the issue this fixes?').replace('#', '')
+			elif source == 'Earliest Range from Commit':
+				config['source']['data'] = inquirer.text('What is the PR (including the #) or commit hash that adds the feature?')
 
 	if config['category'] and config['category']['label']:
 		config['labels'].append(config['category']['label'])
