@@ -110,6 +110,9 @@ data_sources = {
 	"Issue Fix": {
 		"description": "This fixes #{source}, which contains the supporting evidence for this change."
 	},
+	"Mirror": {
+		"description": "This sets the downstream browser(s) to mirror from their upstream counterpart."
+	},
 	"Earliest Range from Commit": {
 		"description": "This sets the feature(s) to a version range based upon the date that the feature was added to BCD with the intent of replacing `true` values with ranged values to eliminate `true` values from BCD.",
 		"source": "Commit/PR Adding the Feature: {source}"
