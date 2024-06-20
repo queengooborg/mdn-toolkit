@@ -136,7 +136,7 @@ categories = {
 	"javascript.operators": { "title": "JavaScript operator", "label": "data:js :pager:" },
 	"mathml": { "title": "MathML feature", "label": "data:mathml :heavy_division_sign:" },
 	"mathml.elements": { "title": "MathML element", "label": "data:mathml :heavy_division_sign:" },
-	"svg.attributes": { "title": "SVG attribute", "label": "data:svg :paintbrush:" },
+	"svg": { "title": "SVG feature", "label": "data:svg :paintbrush:" },
 	"svg.elements": { "title": "SVG element", "label": "data:svg :paintbrush:" },
 	"webdriver.commands": { "title": "Web Driver command", "label": "data:webdriver :racing_car:" },
 	"webextensions": { "title": "Web Extensions feature", "label": "data:webext :game_die:" },
