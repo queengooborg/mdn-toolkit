@@ -176,13 +176,14 @@ browsers = {
 		"name": "Chrome/Safari",
 		"long_name": "Chrome and Safari",
 	},
-	"webview": {
-		"name": "WebView",
-		"long_name": "WebView Android",
-	},
 	"chromeandroid": "Chrome Android",
 	"fenix": "Firefox Android",
 	"samsung": "Samsung Internet",
+	"webview_android": "WebView Android",
+	"webview_ios": {
+		"name": "WebView iOS",
+		"long_name": "WebView iOS/iPadOS"
+	},
 	"nodejs": "NodeJS",
 	"deno": "Deno",
 	"all": "all browsers",
