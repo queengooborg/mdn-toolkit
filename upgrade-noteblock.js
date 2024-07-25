@@ -13,7 +13,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-const regex = (strings) => new RegExp(`>\\s\\*\\*(${strings.join('|')})\\*\\*\\s(>\\s(?!>)|>(?=\\n))?`, 'g');
+const regex = (strings) => new RegExp(`( *)>\\s\\*\\*(${strings.join('|')})\\*\\*\\s(>\\s(?!>)|>(?=\\n))?`, 'g');
 const types = {
 	"NOTE": [
 		"Note:",
@@ -78,7 +78,7 @@ const main = async (filepath) => {
 			const re = regex(strings);
 			if (contents.match(re)) {
 				// If there's any match, replace all matches
-				contents = contents.replace(re, `> [!${type}]\n> `);
+				contents = contents.replace(re, `$1> [!${type}]\n$1> `);
 				changed = true;
 			}
 
