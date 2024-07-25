@@ -13,7 +13,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-const regex = (strings) => new RegExp(`>\\s\\*\\*(${strings.join('|')})\\*\\*\\s`, 'g');
+const regex = (strings) => new RegExp(`>\\s\\*\\*(${strings.join('|')})\\*\\*\\s(>\\s(?!>)|>(?=\\n))?`, 'g');
 const types = {
 	"NOTE": [
 		"Note:",
