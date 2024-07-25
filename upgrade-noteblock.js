@@ -41,19 +41,19 @@ const types = {
 		"警告：",
 		"警告："
 	],
-	// "CALLOUT": [
-	// 	"Callout:",
-	// 	"Bemerkung:",
-	// 	"Observación:",
-	// 	"Remarque :",
-	// 	"注目:",
-	// 	"알림:",
-	// 	"Obserwacja:",
-	// 	"Observação:",
-	// 	"Сноска:",
-	// 	"标注：",
-	// 	"標註："
-	// ],
+	"CALLOUT": [
+		"Callout:",
+		"Bemerkung:",
+		"Observación:",
+		"Remarque :",
+		"注目:",
+		"알림:",
+		"Obserwacja:",
+		"Observação:",
+		"Сноска:",
+		"标注：",
+		"標註："
+	],
 };
 
 // https://gist.github.com/lovasoa/8691344
