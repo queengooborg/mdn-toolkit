@@ -121,29 +121,29 @@ data_sources = {
 
 # More specific categories should always come after less specific ones
 categories = {
-	"api": { "title": "API", "label": "data:api :rabbit2:" },
-	"css.at-rules": { "title": "CSS at-rule", "label": "data:css :art:" },
-	"css.selectors": { "title": "CSS selector", "label": "data:css :art:" },
-	"css.types": { "title": "CSS value type", "label": "data:css :art:" },
-	"css.properties": { "title": "CSS property", "label": "data:css :art:" },
-	"html": { "title": "HTML feature", "label": "data:html :page_facing_up:" },
-	"html.elements": { "title": "HTML element", "label": "data:html :page_facing_up:" },
-	"html.manifest": { "title": "HTML manifest property", "label": "data:html :page_facing_up:" },
-	"http": { "title": "HTTP feature", "label": "data:http :mountain_cableway:" },
-	"http.headers": { "title": "HTTP header", "label": "data:http :mountain_cableway:" },
-	"javascript": { "title": "JavaScript feature", "label": "data:js :pager:" },
-	"javascript.builtins": { "title": "JavaScript builtin", "label": "data:js :pager:" },
-	"javascript.operators": { "title": "JavaScript operator", "label": "data:js :pager:" },
-	"mathml": { "title": "MathML feature", "label": "data:mathml :heavy_division_sign:" },
-	"mathml.elements": { "title": "MathML element", "label": "data:mathml :heavy_division_sign:" },
-	"svg": { "title": "SVG feature", "label": "data:svg :paintbrush:" },
-	"svg.elements": { "title": "SVG element", "label": "data:svg :paintbrush:" },
-	"webdriver.commands": { "title": "Web Driver command", "label": "data:webdriver :racing_car:" },
-	"webextensions": { "title": "Web Extensions feature", "label": "data:webext :game_die:" },
-	"webextensions.api": { "title": "Web Extensions interface", "label": "data:webext :game_die:" },
-	"webextensions.manifest": { "title": "Web Extensions manifest property", "label": "data:webext :game_die:" },
-	"webassembly": { "title": "WebAssembly feature", "label": "data:wasm :mechanical_arm:" },
-	"webassembly.api": { "title": "WebAssembly interface", "label": "data:wasm :mechanical_arm:" },
+	"api": { "title": "API", "label": "data:api" },
+	"css.at-rules": { "title": "CSS at-rule", "label": "data:css" },
+	"css.selectors": { "title": "CSS selector", "label": "data:css" },
+	"css.types": { "title": "CSS value type", "label": "data:css" },
+	"css.properties": { "title": "CSS property", "label": "data:css" },
+	"html": { "title": "HTML feature", "label": "data:html" },
+	"html.elements": { "title": "HTML element", "label": "data:html" },
+	"html.manifest": { "title": "HTML manifest property", "label": "data:html" },
+	"http": { "title": "HTTP feature", "label": "data:http" },
+	"http.headers": { "title": "HTTP header", "label": "data:http" },
+	"javascript": { "title": "JavaScript feature", "label": "data:js" },
+	"javascript.builtins": { "title": "JavaScript builtin", "label": "data:js" },
+	"javascript.operators": { "title": "JavaScript operator", "label": "data:js" },
+	"mathml": { "title": "MathML feature", "label": "data:mathml" },
+	"mathml.elements": { "title": "MathML element", "label": "data:mathml" },
+	"svg": { "title": "SVG feature", "label": "data:svg" },
+	"svg.elements": { "title": "SVG element", "label": "data:svg" },
+	"webdriver.commands": { "title": "Web Driver command", "label": "data:webdriver" },
+	"webextensions": { "title": "Web Extensions feature", "label": "data:webext" },
+	"webextensions.api": { "title": "Web Extensions interface", "label": "data:webext" },
+	"webextensions.manifest": { "title": "Web Extensions manifest property", "label": "data:webext" },
+	"webassembly": { "title": "WebAssembly feature", "label": "data:wasm" },
+	"webassembly.api": { "title": "WebAssembly interface", "label": "data:wasm" },
 }
 
 # All applicable web browsers
@@ -475,7 +475,7 @@ def get_config():
 
 		config['content_update'] = inquirer.confirm("Is an mdn/content update required?", default=True)
 		if config['content_update']:
-			config['labels'].append('needs content update 📝')
+			config['labels'].append('needs content update')
 	elif config['pr_type'] not in ['Metadata Corrections', 'Flag Removal']:
 		source = inquirer.list_input(
 			"Where does this data come from?",
